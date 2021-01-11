@@ -25,24 +25,12 @@ def application(environ, start_response):
         text = f"<tr><td>{key}</td><td>{value}</td></tr>"
         environ2 = environ2 + text
 
-    payload = (
-        "<!DOCTYPE html>"
-        "<html>"
-        "<head>"
-        "<title>Alpha</title>"
-        '<meta charset="utf-8">'
-        "</head>"
-        "<body>"
-        f"<h1>Project Alpha: {random_number}</h1>"
-        "<hr>"
-        "<p>Environ</p>"
-        "<table>"
-        f"{environ2}"
-        "</table>"
-        "</body>"
-        "</html>"
+    template = read_template("index.html")
+    payload = template.format(
+        random_number=random_number,
+        environ=environ2,
     )
 
     start_response(status, list(headers.items()))
 
-    yield from [payload.encode()]
+    yield payload.encode()
