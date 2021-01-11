@@ -29,7 +29,6 @@ def application(environ, start_response):
     payload = template.format(
         random_number=random_number,
         environ=environ2,
-        xxx=1
     )
 
     start_response(status, list(headers.items()))
