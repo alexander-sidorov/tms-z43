@@ -1,37 +1,83 @@
-import random
+from typing import Callable
+from typing import Tuple
+from urllib.parse import parse_qs
 
 import sentry_sdk
 
 from framework.dirs import DIR_SRC
 from framework.util.settings import get_setting
+from tasks.lesson03 import task303
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
 
+ResponseT = Tuple[str, str, str]
 
-def application(environ, start_response):
-    if environ["PATH_INFO"] == "/e/":
-        division = 1 / 0
 
+def handle_error(method: str, path: str, qs: str) -> ResponseT:
+    payload = str(1 / 0)
+    return "500 Internal Server Error", "text/plain", payload
+
+
+def handle_404(method: str, path: str, qs: str) -> ResponseT:
+    status = "404 Not Found"
+    content_type = "text/plain"
+    payload = f"OOPS! endpoint {path} not found!"
+    return status, content_type, payload
+
+
+def handle_task_303(method: str, path: str, qs: str) -> ResponseT:
+    status = "200 OK"
+    content_type = "text/plain"
+
+    qsi = parse_qs(qs)
+
+    sentence = qsi.get("sentence", ["xxx yyy"])[0]
+
+    payload = task303.solution(sentence)
+
+    return status, content_type, payload
+
+
+def handle_index(method: str, path: str) -> ResponseT:
     status = "200 OK"
 
-    headers = {
-        "Content-type": "text/html",
-    }
-
-    random_number = random.randint(-100, 100)
-
-    environ2 = ""
-
-    for key, value in environ.items():
-        text = f"<tr><td>{key}</td><td>{value}</td></tr>"
-        environ2 = environ2 + text
+    content_type = "text/html"
 
     template = read_template("index.html")
 
     payload = template.format(
-        random_number=random_number,
-        environ=environ2,
+        random_number=123,
+        environ={},
     )
+
+    return status, content_type, payload
+
+
+HANDLERS = {
+    "/": handle_index,
+    "/e/": handle_error,
+    "/tasks/lesson03/task303/": handle_task_303,
+}
+
+
+def get_handler(path: str) -> Callable:
+    handler = HANDLERS.get(path, handle_404)
+
+    return handler
+
+
+def application(environ, start_response):
+    method = environ["REQUEST_METHOD"]
+    path = environ["PATH_INFO"]
+    query_string = environ["QUERY_STRING"]
+
+    handler = get_handler(path)
+
+    status, content_type, payload = handler(method, path, query_string)
+
+    headers = {
+        "Content-type": content_type,
+    }
 
     start_response(status, list(headers.items()))
 
