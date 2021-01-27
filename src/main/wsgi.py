@@ -27,13 +27,21 @@ def handle_404(method: str, path: str, qs: str) -> ResponseT:
 
 def handle_task_303(method: str, path: str, qs: str) -> ResponseT:
     status = "200 OK"
-    content_type = "text/plain"
+    content_type = "text/html"
 
     qsi = parse_qs(qs)
 
-    sentence = qsi.get("sentence", ["xxx yyy"])[0]
+    template = read_template("task_303.html")
 
-    payload = task303.solution(sentence)
+    sentence = qsi.get("sentence")
+
+    if not sentence:
+        result = ""
+    else:
+        sentence = sentence[0]
+        result = task303.solution(sentence)
+
+    payload = template.format(text=result)
 
     return status, content_type, payload
 
