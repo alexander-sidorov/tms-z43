@@ -46,7 +46,7 @@ def handle_task_303(method: str, path: str, qs: str) -> ResponseT:
     return status, content_type, payload
 
 
-def handle_index(method: str, path: str) -> ResponseT:
+def handle_index(method: str, path: str, qs: str) -> ResponseT:
     status = "200 OK"
 
     content_type = "text/html"
