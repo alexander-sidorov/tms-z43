@@ -5,7 +5,6 @@ def ask_user_to_input_a_sentence() -> str:
 
 def extract_words_from_sentence(s: str) -> list:
     w = s.split(" ")
-    assert len(w) == 2, f"error! sentence '{s}' contains <>2 words"
     return w
 
 
@@ -21,6 +20,12 @@ def solution(sentence: str) -> str:
     """
 
     words = extract_words_from_sentence(sentence)
+    if len(words) < 2:
+        word = words[0]
+        return f"!{word}!"
+
+    if len(words) > 2:
+        raise ValueError("function does not support sentences with > 2 words")
 
     template = "!{word2} {word1}!"
     context = {
