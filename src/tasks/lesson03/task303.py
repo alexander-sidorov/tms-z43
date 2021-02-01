@@ -15,6 +15,11 @@ def render_template(t: str, c: dict) -> str:
 
 
 def solution(sentence: str) -> str:
+    """
+    Splits a sentence to two words, exchanges them
+    and adds "!" to each side of new sentence.
+    """
+
     words = extract_words_from_sentence(sentence)
 
     template = "!{word2} {word1}!"
