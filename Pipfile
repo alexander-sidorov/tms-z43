@@ -17,12 +17,10 @@ pytest-mock = "==3.4.0"
 pytest-selenium = "==2.0.1"
 requests = "==2.25.0"
 toml = "==0.10.2"
+astpretty = {extras = ["typed"], version = "*"}
 
 [packages]
 gunicorn = "==20.0.4"
 psycopg2-binary = "==2.8.6"
 sentry-sdk = "==0.19.5"
-
-[packages.dynaconf]
-extras = [ "yaml",]
-version = "==3.1.2"
+dynaconf = {extras = [ "yaml",], version = "==3.1.2"}
