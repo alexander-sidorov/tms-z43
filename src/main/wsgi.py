@@ -1,18 +1,16 @@
 from typing import Callable
-from typing import Tuple
 from urllib.parse import parse_qs
 
 import sentry_sdk
 
 from framework.dirs import DIR_SRC
 from framework.util.settings import get_setting
+from main.custom_types import ResponseT
 from main.handlers.system_handlers import handle_404
 from main.handlers.system_handlers import handle_500
 from tasks.lesson03 import task303
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
-
-ResponseT = Tuple[str, str, str]
 
 
 def handle_error(method: str, path: str, qs: str) -> ResponseT:

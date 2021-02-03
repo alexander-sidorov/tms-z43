@@ -1,6 +1,6 @@
 import traceback
 
-from main.wsgi import ResponseT
+from main.custom_types import ResponseT
 
 
 def handle_404(method: str, path: str, qs: str) -> ResponseT:
