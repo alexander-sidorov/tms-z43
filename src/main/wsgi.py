@@ -6,6 +6,8 @@ import sentry_sdk
 
 from framework.dirs import DIR_SRC
 from framework.util.settings import get_setting
+from main.handlers.system_handlers import handle_404
+from main.handlers.system_handlers import handle_500
 from tasks.lesson03 import task303
 
 sentry_sdk.init(get_setting("SENTRY_DSN"), traces_sample_rate=1.0)
@@ -16,13 +18,6 @@ ResponseT = Tuple[str, str, str]
 def handle_error(method: str, path: str, qs: str) -> ResponseT:
     payload = str(1 / 0)
     return "500 Internal Server Error", "text/plain", payload
-
-
-def handle_404(method: str, path: str, qs: str) -> ResponseT:
-    status = "404 Not Found"
-    content_type = "text/plain"
-    payload = f"OOPS! endpoint {path} not found!"
-    return status, content_type, payload
 
 
 def handle_task_303(method: str, path: str, qs: str) -> ResponseT:
@@ -81,7 +76,10 @@ def application(environ, start_response):
 
     handler = get_handler(path)
 
-    status, content_type, payload = handler(method, path, query_string)
+    try:
+        status, content_type, payload = handler(method, path, query_string)
+    except Exception:
+        status, content_type, payload = handle_500(method, path, query_string)
 
     headers = {
         "Content-type": content_type,
