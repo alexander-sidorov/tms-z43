@@ -6,6 +6,7 @@ from tasks.lesson01 import task103
 from tasks.lesson03 import task301
 from tasks.lesson03 import task302
 from tasks.lesson03 import task303
+from tasks.lesson03 import task304
 from tasks.lesson03 import task309
 
 from . import error_test
@@ -20,6 +21,7 @@ urlpatterns: Dict[str, HandlerT] = {
     "/tasks/3/301/": task301.handler,
     "/tasks/3/302/": task302.handler,
     "/tasks/3/303/": task303.handler,
+    "/tasks/3/304/": task304.handler,
     "/tasks/3/309/": task309.handler,
 }
 
