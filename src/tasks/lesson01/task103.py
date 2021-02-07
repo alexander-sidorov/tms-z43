@@ -6,7 +6,10 @@ TEMPLATE = "tasks/lesson01/task103.html"
 
 
 def handler(request: RequestT) -> ResponseT:
-    ages = (age1, age2, age3) = [int(request.query.get(f"age{i}", [0])[0]) for i in "123"]
+    ages = (age1, age2, age3) = [
+        int(request.query.get(f"age{i}", [0])[0])
+        for i in "123"
+    ]
     age_sum = sum(ages)
     age_avg = age_sum / len(ages)
 
