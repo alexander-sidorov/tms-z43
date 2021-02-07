@@ -2,6 +2,7 @@ from typing import Dict
 
 from main.custom_types import HandlerT
 from main.custom_types import RequestT
+from tasks.lesson01 import task103
 from tasks.lesson03 import task303
 
 from . import error_test
@@ -12,6 +13,7 @@ from .system_handlers import handle_500
 urlpatterns: Dict[str, HandlerT] = {
     "/": index.handler,
     "/e/": error_test.handler,
+    "/tasks/1/103/": task103.handler,
     "/tasks/3/303/": task303.handler,
 }
 
