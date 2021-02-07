@@ -1,17 +1,25 @@
 import traceback
+from http import HTTPStatus
 
+from main.custom_types import RequestT
 from main.custom_types import ResponseT
 
 
-def handle_404(method: str, path: str, qs: str) -> ResponseT:
-    status = "404 Not Found"
-    content_type = "text/plain"
-    payload = f"OOPS! endpoint {path} not found!"
-    return status, content_type, payload
+def handle_404(request: RequestT) -> ResponseT:
+    response = ResponseT(
+        content_type="text/plain",
+        payload=f"OOPS! endpoint {request.path} not found!",
+        status=HTTPStatus.NOT_FOUND,
+    )
+
+    return response
 
 
-def handle_500(method: str, path: str, qs: str) -> ResponseT:
-    status = "500 Internal Server Error"
-    content_type = "text/plain"
-    payload = traceback.format_exc()
-    return status, content_type, payload
+def handle_500(_request: RequestT) -> ResponseT:
+    response = ResponseT(
+        content_type="text/plain",
+        payload=traceback.format_exc(),
+        status=HTTPStatus.INTERNAL_SERVER_ERROR,
+    )
+
+    return response
