@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Задание 3.10</title>
+</head>
+<body>
+<article>
+    <p><a href="/">&lt;&lt;&lt;</a></p>
+    <hr>
+    <h1>Задание 3.10</h1>
+    <section>
+        <h2>Условие</h2>
+        <section>
+            <h3>Условие из методички</h3>
+            <p>Получить на ввод количество рублей и копеек.</p>
+            <div>
+                <p>Вывести в правильной форме, например:</p>
+                <ul>
+                    <li><i>3 рубля</i></li>
+                    <li><i>1 рубль 25 копеек</i></li>
+                    <li><i>3 копейки</i></li>
+                </ul>
+            </div>
+        </section>
+        <section>
+            <h3>Дополнительное условие</h3>
+            <p>Получить на ввод количество рублей и копеек.</p>
+            <div>
+                <p>Вывести количество по номиналам. Например, 888.88 &mdash; это:</p>
+                <ul>
+                    <li>1 &times; <i>500 рублей</i></li>
+                    <li>1 &times; <i>200 рублей</i></li>
+                    <li>1 &times; <i>100 рублей</i></li>
+                    <li>1 &times; <i>50 рублей</i></li>
+                    <li>1 &times; <i>20 рублей</i></li>
+                    <li>1 &times; <i>10 рублей</i></li>
+                    <li>1 &times; <i>5 рублей</i></li>
+                    <li>1 &times; <i>2 рубля</i></li>
+                    <li>1 &times; <i>1 рубль</i></li>
+                    <li>1 &times; <i>50 копеек</i></li>
+                    <li>1 &times; <i>20 копеек</i></li>
+                    <li>1 &times; <i>10 копеек</i></li>
+                    <li>1 &times; <i>5 копеек</i></li>
+                    <li>1 &times; <i>2 копейки</i></li>
+                    <li>1 &times; <i>1 копейка</i></li>
+                </ul>
+            </div>
+        </section>
+        <form>
+            <label for="id_money">Деньги:</label>
+            <input id="id_money" name="money" placeholder="888.88" type="text" value="{money}">
+            <button type="submit">Выполнить</button>
+        </form>
+    </section>
+    <section>
+        <h2>Результаты</h2>
+        <p>Ответ на условие из методички: {result1}</p>
+        <div>
+            <p>Ответ на дополнительное условие:</p>
+            <pre style="font-size: 2rem">{result2}</pre>
+        </div>
+    </section>
+</article>
+</body>
+</html>
