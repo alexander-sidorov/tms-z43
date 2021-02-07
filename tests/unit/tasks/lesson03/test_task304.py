@@ -16,5 +16,5 @@ def test():
     }
 
     for test_value, expected_value in test_data.items():
-        got_value = solution(expected_value)
+        got_value = solution(test_value)
         assert expected_value == got_value
