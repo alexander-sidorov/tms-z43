@@ -7,20 +7,22 @@ verify_ssl = true
 python_version = "3.9"
 
 [dev-packages]
+astpretty = {extras = ["typed"], version = "==2.1.0"}
 black = "==20.8b1"
-httpie = "==2.3.0"
-ipython = "==7.19.0"
-isort = "==5.6.4"
-pudb = "==2019.2"
-pytest = "==6.2.1"
-pytest-mock = "==3.4.0"
+httpie = "==2.4.0"
+ipython = "==7.20.0"
+isort = "==5.7.0"
+jedi = "<0.18.0"
+pudb = "==2020.1"
+pytest = "==6.2.2"
+pytest-mock = "==3.5.1"
 pytest-selenium = "==2.0.1"
-requests = "==2.25.0"
-toml = "==0.10.2"
-astpretty = {extras = ["typed"], version = "*"}
 
 [packages]
+dynaconf = {extras = [ "yaml",], version = "==3.1.2"}
 gunicorn = "==20.0.4"
 psycopg2-binary = "==2.8.6"
+pydantic = "==1.7.3"
+requests = "==2.25.1"
 sentry-sdk = "==0.19.5"
-dynaconf = {extras = [ "yaml",], version = "==3.1.2"}
+toml = "==0.10.2"

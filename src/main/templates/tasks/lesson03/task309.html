@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Задание 3.09</title>
+</head>
+<body>
+<article>
+    <p><a href="/">&lt;&lt;&lt;</a></p>
+    <hr>
+    <h1>Задание 3.09</h1>
+    <section>
+        <h2>Условие</h2>
+        <p>Вычислить квадратное уравнение:</p>
+        <pre>ax&sup2; + bx + c = 0</pre>
+        <div>
+            <p>Предусмотреть 3 варианта:</p>
+            <ol>
+                <li>Два действительных корня</li>
+                <li>Один действительный корень</li>
+                <li>Нет действительных корней</li>
+            </ol>
+        </div>
+        <form>
+            <p>
+                <label for="id_a">a:</label>
+                <input id="id_a" name="a" placeholder="4" type="text" value="{a}">
+            </p>
+            <p>
+                <label for="id_b">b:</label>
+                <input id="id_b" name="b" placeholder="2" type="text" value="{b}">
+            </p>
+            <p>
+                <label for="id_c">c:</label>
+                <input id="id_c" name="c" placeholder="1" type="text" value="{c}">
+            </p>
+            <p>
+                <label for="id_can_into_complex">Я умею в комплексные числа</label>
+                <input id="id_can_into_complex" name="can_into_complex" type="checkbox" {can_into_complex}>
+            </p>
+            <button type="submit">Выполнить</button>
+        </form>
+    </section>
+    <section>
+        <h2>Результат</h2>
+        <pre>{result}</pre>
+    </section>
+</article>
+</body>
+</html>
