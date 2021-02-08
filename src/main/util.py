@@ -2,10 +2,8 @@ from pathlib import Path
 from typing import Dict
 from typing import Optional
 from typing import Union
-from urllib.parse import parse_qs
 
 from framework.dirs import DIR_TEMPLATES
-from main.custom_types import RequestT
 
 
 def render_template(
@@ -27,16 +25,3 @@ def read_template(template_path: Union[str, Path]) -> str:
         content = fd.read()
 
     return content
-
-
-def build_request(environ: Dict) -> RequestT:
-    qs = environ["QUERY_STRING"]
-    query = parse_qs(qs)
-
-    request = RequestT(
-        method=environ["REQUEST_METHOD"],
-        path=environ["PATH_INFO"],
-        query=query,
-    )
-
-    return request

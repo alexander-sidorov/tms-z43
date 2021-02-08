@@ -11,3 +11,6 @@ DIR_TESTS = (DIR_REPO / "tests").resolve()
 DIR_FRAMEWORK = (DIR_SRC / "framework").resolve()
 DIR_SCRIPTS = (DIR_SRC / "scripts").resolve()
 DIR_TEMPLATES = (DIR_SRC / "main" / "templates").resolve()
+
+DIR_STORAGE = (DIR_REPO / "storage").resolve()
+DIR_STORAGE.mkdir(exist_ok=True)

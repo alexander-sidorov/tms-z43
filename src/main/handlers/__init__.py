@@ -13,6 +13,7 @@ from tasks.lesson03 import task307
 from tasks.lesson03 import task309
 from tasks.lesson03 import task310
 from tasks.lesson03 import task311
+from tasks.lesson04 import task402
 
 from . import error_test
 from . import index
@@ -33,6 +34,7 @@ urlpatterns: Dict[str, HandlerT] = {
     "/tasks/3/309/": task309.handler,
     "/tasks/3/310/": task310.handler,
     "/tasks/3/311/": task311.handler,
+    "/tasks/4/402/": task402.handler,
 }
 
 
