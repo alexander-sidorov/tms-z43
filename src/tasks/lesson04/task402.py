@@ -1,31 +1,60 @@
+import json
 import os
+from http import HTTPStatus
 from pathlib import Path
 from typing import Optional
 
 from framework.dirs import DIR_STORAGE
 from main.custom_types import RequestT
 from main.custom_types import ResponseT
+from main.util import render_template
 
 
 def handler(request: RequestT) -> ResponseT:
-    headers = {}
+    response = ResponseT()
+
     client_name = get_client(request)
     if not client_name:
         client_name = create_new_client()
-        headers["Set-Cookie"] = f"name={client_name}"
+        response.cookies["z43sessionid"] = client_name
+        response.cookies["z43sessionid"]["path"] = "/"
 
-    client_data = request.query.get("number")[0]
     result = "invalid input"
-    if client_data == "stop":
-        result = calc_sum(client_name)
-    elif client_data.isnumeric():
+    response.status = HTTPStatus.BAD_REQUEST
+
+    client_data = request.query.get("number", [""])[0]
+    if client_data.isnumeric():
         number = int(client_data)
         result = add_number(client_name, number)
+        response.status = HTTPStatus.OK
 
-    response = ResponseT(
-        headers=headers,
-        payload=str(result),
+    context = {"number": result}
+
+    response.payload = render_template(
+        "tasks/lesson04/task402.html", context, engine="$"
     )
+
+    return response
+
+
+def handler_api(request: RequestT) -> ResponseT:
+    response = ResponseT(content_type="application/json")
+    payload = {
+        "ok": False,
+        "result": "0",
+    }
+
+    client_name = get_client(request)
+    if not client_name:
+        client_name = create_new_client()
+        response.cookies["z43sessionid"] = client_name
+
+    result = calc_sum(client_name)
+    payload["ok"] = True
+    payload["result"] = result
+
+    response.payload = json.dumps(payload)
+    response.status = HTTPStatus.OK
 
     return response
 
@@ -43,6 +72,9 @@ def get_client_file(client_name: str) -> Path:
 def calc_sum(client_name: str) -> int:
     data_file = get_client_file(client_name)
 
+    if not data_file.exists():
+        return 0
+
     with data_file.open("r") as src:
         result = sum(int(line.strip()) for line in src.readlines())
 
@@ -59,11 +91,11 @@ def add_number(client_name: str, number: int) -> int:
 
 
 def get_client(request: RequestT) -> Optional[str]:
-    cookies = request.headers.get("Cookie")
-    if not cookies:
+    if not request.cookies:
         return None
 
-    cookie_name, cookie_value = cookies.split("=")
-    assert cookie_name == "name"
+    morsel = request.cookies.get("z43sessionid")
+    if not morsel:
+        return None
 
-    return cookie_value or None
+    return morsel.value or None

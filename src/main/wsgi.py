@@ -17,13 +17,8 @@ def application(environ, start_response):
     except Exception:
         response = handle_500(request)
 
-    headers = {
-        "Content-Type": response.content_type,
-        **response.headers,
-    }
-
     status = f"{response.status.value} {response.status.phrase}"
-    headers_list = list(headers.items())
+    headers_list = list(response.headers_items())
     start_response(status, headers_list)
 
     yield response.payload.encode()

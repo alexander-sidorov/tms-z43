@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Задание 4.02</title>
+</head>
+<body>
+<article>
+    <p><a href="/">&lt;&lt;&lt;</a></p>
+    <hr>
+    <h1>Задание 4.02</h1>
+    <section>
+        <h2>Условие</h2>
+        <p>Просуммировать неопределенное количество чисел, вводимых пользователем.</p>
+        <p>Суммировать до тех пор, пока пользователь не введёт слово "stop".</p>
+        <form>
+            <label for="id_number">Число:</label>
+            <input id="id_number" name="number" placeholder="88" type="number" value="$number">
+            <button type="submit">Выполнить</button>
+        </form>
+    </section>
+    <section>
+        <h2>Результат</h2>
+        <p>
+            <span id="id_spinner" style="color: red">🌍</span>
+            <span id="id_result">?</span>
+        </p>
+    </section>
+</article>
+<script>
+    const getSum = () => {
+        let api_url = `/api/v1/tasks/402/`;
+        let element = document.getElementById("id_result");
+
+        fetch(api_url, {
+            method: "GET",
+        }).then(
+            response => {
+                if (response.status === 200) {
+                    response.json().then(
+                        payload => {
+                            if (payload.ok) {
+                                element.textContent = payload.result;
+                            } else {
+                                console.log("ERROR (server declines request):", JSON.stringify(payload.reason));
+                            }
+                        }
+                    ).catch(
+                        error => {
+                            console.log("ERROR (while parsing server response):", error);
+                        }
+                    );
+                } else {
+                    console.log("ERROR (with response):", response.status, response.statusText);
+                }
+            }
+        ).catch(
+            error => {
+                console.log("ERROR (on fetch request):", error);
+            }
+        );
+    }
+
+    const thinking = () => {
+        const glyphs = ["🌍", "🌏", "🌎",];
+        let element = document.getElementById("id_spinner");
+
+        let position = sessionStorage.getItem("glyph_position");
+        if (!position) {
+            position = 0;
+        } else {
+            position = parseInt(position);
+        }
+        position = position % glyphs.length;
+        element.textContent = glyphs[position];
+        sessionStorage.setItem("glyph_position", (position + 1).toString())
+    }
+
+    window.onload = () => {
+        setInterval(getSum, 2000);
+        setInterval(thinking, 500);
+    };
+</script>
+</body>
+</html>
