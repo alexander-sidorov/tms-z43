@@ -3,6 +3,7 @@ import os
 from http import HTTPStatus
 from pathlib import Path
 from typing import Optional
+from urllib.parse import parse_qs
 
 from framework.dirs import DIR_STORAGE
 from main.custom_types import RequestT
@@ -12,21 +13,17 @@ from main.util import render_template
 
 def handler(request: RequestT) -> ResponseT:
     response = ResponseT()
-
-    client_name = get_client(request)
-    if not client_name:
-        client_name = create_new_client()
-        response.cookies["z43sessionid"] = client_name
-        response.cookies["z43sessionid"]["path"] = "/"
-
     result = "invalid input"
     response.status = HTTPStatus.BAD_REQUEST
 
-    client_data = request.query.get("number", [""])[0]
-    if client_data.isnumeric():
+    client_data = parse_qs(request.payload).get("number", [""])[0]
+    try:
         number = int(client_data)
+        client_name = get_client(request, response)
         result = add_number(client_name, number)
         response.status = HTTPStatus.OK
+    except ValueError:
+        pass
 
     context = {"number": result}
 
@@ -41,14 +38,10 @@ def handler_api(request: RequestT) -> ResponseT:
     response = ResponseT(content_type="application/json")
     payload = {
         "ok": False,
-        "result": "0",
+        "result": 0,
     }
 
-    client_name = get_client(request)
-    if not client_name:
-        client_name = create_new_client()
-        response.cookies["z43sessionid"] = client_name
-
+    client_name = get_client(request, response)
     result = calc_sum(client_name)
     payload["ok"] = True
     payload["result"] = result
@@ -90,12 +83,19 @@ def add_number(client_name: str, number: int) -> int:
     return number
 
 
-def get_client(request: RequestT) -> Optional[str]:
-    if not request.cookies:
-        return None
+def get_client(request: RequestT, response: ResponseT) -> Optional[str]:
+    session_key = "z43sessionid"
 
-    morsel = request.cookies.get("z43sessionid")
+    def setup_new_client():
+        cn = create_new_client()
+        response.cookies[session_key] = cn
+        response.cookies[session_key]["path"] = "/"
+        return cn
+
+    morsel = request.cookies.get(session_key)
     if not morsel:
-        return None
+        client_name = setup_new_client()
+    else:
+        client_name = morsel.value
 
-    return morsel.value or None
+    return client_name

@@ -40,6 +40,7 @@ class RequestT(BaseModel):
     headers: Dict = Field(default_factory=dict)
     cookies: SimpleCookie = Field(default_factory=SimpleCookie)
     session: Session = Field(default_factory=Session)
+    payload: str = ""
 
     class Config:
         allow_mutation = False
@@ -56,12 +57,14 @@ def prepare_kwargs(environ: Dict) -> Dict[str, Any]:
     headers = prepare_headers(environ)
     cookies = prepare_cookies(headers)
     session = Session(cookies.get("z43sessionid"))
+    payload = fetch_payload(environ)
 
     kwargs = dict(
         cookies=cookies,
         headers=headers,
         method=environ["REQUEST_METHOD"],
         path=environ["PATH_INFO"],
+        payload=payload,
         query=query,
         session=session,
     )
@@ -97,6 +100,16 @@ def reform_header(header: str) -> str:
     capitalized = string.capwords(dash_sep, "-")
 
     return capitalized
+
+
+def fetch_payload(environ: Dict) -> str:
+    src = environ["wsgi.input"]
+    ssp = int(environ.get("CONTENT_LENGTH") or 0)
+    if not ssp:
+        return ""
+
+    data = src.read(ssp).decode()
+    return data
 
 
 HandlerT = Callable[[RequestT], ResponseT]

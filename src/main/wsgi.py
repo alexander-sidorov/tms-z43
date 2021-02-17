@@ -18,7 +18,7 @@ def application(environ, start_response):
         response = handle_500(request)
 
     status = f"{response.status.value} {response.status.phrase}"
-    headers_list = list(response.headers_items()) + request.session.headers_list()
+    headers_list = list(response.headers_items())
     start_response(status, headers_list)
 
     yield response.payload.encode()
