@@ -13,6 +13,8 @@ from urllib.parse import parse_qs
 from pydantic import Field
 from pydantic.main import BaseModel
 
+from main.sessions import Session
+
 
 class ResponseT(BaseModel):
     status: Union[int, HTTPStatus] = HTTPStatus.OK
@@ -37,9 +39,11 @@ class RequestT(BaseModel):
     query: Dict = Field(default_factory=dict)
     headers: Dict = Field(default_factory=dict)
     cookies: SimpleCookie = Field(default_factory=SimpleCookie)
+    session: Session = Field(default_factory=Session)
 
     class Config:
         allow_mutation = False
+        arbitrary_types_allowed = True
 
     def __init__(self, environ: Dict):
         kwargs = prepare_kwargs(environ)
@@ -51,6 +55,7 @@ def prepare_kwargs(environ: Dict) -> Dict[str, Any]:
     query = parse_qs(qs)
     headers = prepare_headers(environ)
     cookies = prepare_cookies(headers)
+    session = Session(cookies.get("z43sessionid"))
 
     kwargs = dict(
         cookies=cookies,
@@ -58,6 +63,7 @@ def prepare_kwargs(environ: Dict) -> Dict[str, Any]:
         method=environ["REQUEST_METHOD"],
         path=environ["PATH_INFO"],
         query=query,
+        session=session,
     )
 
     return kwargs

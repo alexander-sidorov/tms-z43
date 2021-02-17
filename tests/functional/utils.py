@@ -17,6 +17,16 @@ def build_chrome():
     return browser
 
 
+def build_firefox():
+    firefox_options = webdriver.FirefoxOptions()
+    firefox_options.headless = True
+
+    browser = webdriver.Firefox(options=firefox_options)
+    browser.implicitly_wait(4)
+
+    return browser
+
+
 def screenshot_on_failure(test):
     @wraps(test)
     def decorated_test(browser, request, *args, **kwargs):

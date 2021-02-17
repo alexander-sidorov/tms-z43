@@ -14,7 +14,6 @@ from tasks.lesson03 import task309
 from tasks.lesson03 import task310
 from tasks.lesson03 import task311
 from tasks.lesson04 import task402
-
 from . import error_test
 from . import index
 from .system_handlers import handle_404
@@ -40,6 +39,9 @@ urlpatterns: Dict[str, HandlerT] = {
 
 
 def get_handler(request: RequestT) -> HandlerT:
-    handler = urlpatterns.get(request.path, handle_404)
+    handler = urlpatterns.get(
+        request.path,
+        handle_404,
+    )
 
     return handler
