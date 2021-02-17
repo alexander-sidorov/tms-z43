@@ -52,9 +52,9 @@ class MultipleFilesStorage(SessionStorage):
 
 class Session:
     def __init__(
-            self,
-            session_id: Optional[str] = None,
-            storage_factory: Type[SessionStorage] = MultipleFilesStorage,
+        self,
+        session_id: Optional[str] = None,
+        storage_factory: Type[SessionStorage] = MultipleFilesStorage,
     ):
         self.__session_id = session_id or self.generate_session_id()
         self.__storage_factory = storage_factory

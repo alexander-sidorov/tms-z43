@@ -1,5 +1,7 @@
 *.bak
+*.log
 *.py[cod]
+*.swp
 *~
 .DS_Store
 .idea/
