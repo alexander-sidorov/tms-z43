@@ -22,16 +22,6 @@ include ./Makefile.targets.mk
 # keep your targets here
 
 
-.PHONY: migrations
-migrations::
-	$(PYTHON) src/manage.py makemigrations
-
-
 .PHONY: migrate
 migrate::
 	$(PYTHON) src/manage.py migrate
-
-
-.PHONY: static
-static::
-	$(PYTHON) src/manage.py collectstatic --noinput
