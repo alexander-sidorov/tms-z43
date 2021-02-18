@@ -14,11 +14,11 @@
         <h2>Условие</h2>
         <p>Просуммировать неопределенное количество чисел, вводимых пользователем.</p>
         <p>Суммировать до тех пор, пока пользователь не введёт слово "stop".</p>
-        <form action="/tasks/4/402/" method="post">
+        <div>
             <label for="id_number">Число:</label>
             <input id="id_number" name="number" placeholder="88" type="number" value="$number">
-            <button type="submit">Выполнить</button>
-        </form>
+            <button id="id_submit">Выполнить</button>
+        </div>
     </section>
     <section>
         <h2>Результат</h2>
@@ -29,40 +29,65 @@
     </section>
 </article>
 <script>
-    const getSum = () => {
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function addNumber() {
+        let api_url = `/api/v1/tasks/402/`;
+        let elm_number = document.getElementById("id_number");
+        let elm_submit = document.getElementById("id_submit");
+
+        let number = parseInt(elm_number.value);
+        let original_bc = elm_submit.style.backgroundColor;
+
+        elm_submit.style.backgroundColor = "#ffd597";
+        await sleep(1000);
+
+        const response = await fetch(api_url, {
+            method: "POST",
+            cache: 'no-cache',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'number': number}),
+        });
+
+        if (response.status === 200) {
+            const payload = await response.json();
+            if (payload.ok) {
+                elm_submit.style.backgroundColor = "#b7ffa8";
+                setTimeout(() => {
+                    elm_submit.style.backgroundColor = original_bc;
+                    elm_number.value = "";
+                }, 500);
+            } else {
+                elm_submit.style.backgroundColor = "#ff8989";
+                setTimeout(() => {
+                    elm_submit.style.backgroundColor = original_bc;
+                }, 500);
+                console.log("ERROR (server declines request):", JSON.stringify(payload.reason));
+            }
+        }
+    }
+
+    async function getSum() {
         let api_url = `/api/v1/tasks/402/`;
         let element = document.getElementById("id_result");
 
-        fetch(api_url, {
+        const response = await fetch(api_url, {
             method: "GET",
-        }).then(
-            response => {
-                if (response.status === 200) {
-                    response.json().then(
-                        payload => {
-                            if (payload.ok) {
-                                element.textContent = payload.result;
-                            } else {
-                                console.log("ERROR (server declines request):", JSON.stringify(payload.reason));
-                            }
-                        }
-                    ).catch(
-                        error => {
-                            console.log("ERROR (while parsing server response):", error);
-                        }
-                    );
-                } else {
-                    console.log("ERROR (with response):", response.status, response.statusText);
-                }
+        })
+
+        if (response.status === 200) {
+            const payload = await response.json();
+            if (payload.ok) {
+                element.textContent = payload.result;
+            } else {
+                console.log("ERROR (server declines request):", JSON.stringify(payload.reason));
             }
-        ).catch(
-            error => {
-                console.log("ERROR (on fetch request):", error);
-            }
-        );
+        }
     }
 
-    const thinking = () => {
+    async function thinking() {
         const glyphs = ["🌍", "🌏", "🌎",];
         let element = document.getElementById("id_spinner");
 
@@ -78,8 +103,9 @@
     }
 
     window.onload = () => {
-        setInterval(getSum, 2000);
+        setInterval(getSum, 4000);
         setInterval(thinking, 500);
+        document.getElementById("id_submit").onclick = addNumber;
     };
 </script>
 </body>

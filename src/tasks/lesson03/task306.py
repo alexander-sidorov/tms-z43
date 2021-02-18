@@ -1,12 +1,13 @@
-from main.custom_types import RequestT
-from main.custom_types import ResponseT
+from django.http import HttpRequest
+from django.http import HttpResponse
+
 from main.util import render_template
 
 TEMPLATE = "tasks/lesson03/task306.html"
 
 
-def handler(request: RequestT) -> ResponseT:
-    age_raw = request.query.get("age", [""])[0]
+def handler(request: HttpRequest) -> HttpResponse:
+    age_raw = request.GET.get("age", "")
     age = (
         None
         if (not age_raw or (isinstance(age_raw, str) and not age_raw.isnumeric()))
@@ -26,7 +27,7 @@ def handler(request: RequestT) -> ResponseT:
 
     document = render_template(TEMPLATE, context)
 
-    response = ResponseT(payload=document)
+    response = HttpResponse(payload=document)
 
     return response
 

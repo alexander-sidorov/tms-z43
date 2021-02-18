@@ -1,10 +1,10 @@
 from typing import TypeVar
 
+from django.http import HttpRequest
+from django.http import HttpResponse
 from pydantic import BaseModel
 from pydantic import validator
 
-from main.custom_types import RequestT
-from main.custom_types import ResponseT
 from main.util import render_template
 
 TEMPLATE = "tasks/lesson03/task309.html"
@@ -33,11 +33,11 @@ class CoefficientsT(BaseModel):
 AlgebraicNumberT = TypeVar("AlgebraicNumberT", complex, float, int)
 
 
-def handler(request: RequestT) -> ResponseT:
-    a_raw = request.query.get("a", [""])[0] or ""
-    b_raw = request.query.get("b", [""])[0] or ""
-    c_raw = request.query.get("c", [""])[0] or ""
-    can_into_complex = bool(request.query.get("can_into_complex"))
+def handler(request: HttpRequest) -> HttpResponse:
+    a_raw = request.GET.get("a") or ""
+    b_raw = request.GET.get("b") or ""
+    c_raw = request.GET.get("c") or ""
+    can_into_complex = bool(request.GET.get("can_into_complex"))
 
     coefficients = CoefficientsT(a=a_raw, b=b_raw, c=c_raw)
 
@@ -56,7 +56,7 @@ def handler(request: RequestT) -> ResponseT:
 
     document = render_template(TEMPLATE, context)
 
-    response = ResponseT(payload=document)
+    response = HttpResponse(document)
 
     return response
 

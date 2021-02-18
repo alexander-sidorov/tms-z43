@@ -1,15 +1,16 @@
 from typing import NoReturn
 from typing import Optional
 
-from main.custom_types import RequestT
-from main.custom_types import ResponseT
+from django.http import HttpRequest
+from django.http import HttpResponse
+
 from main.util import render_template
 
 TEMPLATE = "tasks/lesson03/task311.html"
 
 
-def handler(request: RequestT) -> ResponseT:
-    email = request.query.get("email", [""])[0]
+def handler(request: HttpRequest) -> HttpResponse:
+    email = request.GET.get("email", "")
 
     try:
         solution(email)
@@ -24,7 +25,7 @@ def handler(request: RequestT) -> ResponseT:
 
     document = render_template(TEMPLATE, context)
 
-    response = ResponseT(payload=document)
+    response = HttpResponse(payload=document)
 
     return response
 
