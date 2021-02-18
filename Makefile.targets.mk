@@ -121,12 +121,12 @@ createdb:
 
 
 .PHONY: migrations
-migrations:
+migrations::
 	$(call log, generating migrations)
 
 
 .PHONY: migrate
-migrate:
+migrate::
 	$(call log, applying migrations)
 
 
@@ -136,7 +136,7 @@ data: static
 
 
 .PHONY: static
-static:
+static::
 	$(call log, collecting static)
 
 
