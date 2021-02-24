@@ -14,6 +14,7 @@ jobs:
   build-and-test:
     environment:
       DATABASE_URL: "postgres://ci:ci@localhost:5432/ci?sslmode=disable"
+      DYNACONF_SECRET_KEY: "1"
       ENV_FOR_DYNACONF: ci
       PGPASSWORD: ci
       PIPENV_VENV_IN_PROJECT: 1
