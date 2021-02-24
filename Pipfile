@@ -16,6 +16,7 @@ pudb = "==2020.1"
 pytest = "==6.2.2"
 pytest-mock = "==3.5.1"
 pytest-selenium = "==2.0.1"
+astpretty = {extras = [ "typed",], version = "==2.1.0"}
 
 [packages]
 django = "==3.1.7"
@@ -25,11 +26,5 @@ pydantic = "==1.7.3"
 requests = "==2.25.1"
 sentry-sdk = "==0.20.3"
 toml = "==0.10.2"
-
-[dev-packages.astpretty]
-extras = [ "typed",]
-version = "==2.1.0"
-
-[packages.dynaconf]
-extras = [ "yaml",]
-version = "==3.1.2"
+dj-database-url = "*"
+dynaconf = {extras = [ "yaml",], version = "==3.1.2"}

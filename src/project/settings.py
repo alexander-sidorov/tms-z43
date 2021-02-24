@@ -1,9 +1,9 @@
-from framework.dirs import DIR_SRC
-from framework.dirs import DIR_TEMPLATES
+import dj_database_url
+from dynaconf import settings
 
-SECRET_KEY = ""
+SECRET_KEY = settings.SECRET_KEY
 
-DEBUG = True
+DEBUG = settings.MODE_DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -47,10 +47,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "project.wsgi.application"
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": DIR_SRC / "db.sqlite3",
-    }
+    "default": dj_database_url.parse(settings.DATABASE_URL),
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -67,7 +64,6 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ] if not DEBUG else []
-
 
 LANGUAGE_CODE = "en-us"
 

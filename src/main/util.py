@@ -8,23 +8,18 @@ from typing import Union
 from framework.dirs import DIR_TEMPLATES
 
 
-class TemplateEngine(enum.Enum):
-    STR_FORMAT = 1
-    STD_TEMPLATE = 2
-
-
 def render_template(
     template_path: Union[str, Path],
     context: Optional[Dict] = None,
     *,
-    engine_type: TemplateEngine = TemplateEngine.STR_FORMAT,
+    engine_type: str = "{",
 ) -> str:
     template = read_template(template_path)
     context = context or {}
 
     engines = {
-        TemplateEngine.STR_FORMAT: lambda c: template.format(**c),
-        TemplateEngine.STD_TEMPLATE: Template(template).safe_substitute,
+        "{": lambda c: template.format(**c),
+        "$": Template(template).safe_substitute,
     }
 
     engine = engines[engine_type]
