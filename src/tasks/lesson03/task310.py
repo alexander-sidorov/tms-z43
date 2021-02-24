@@ -2,8 +2,9 @@ import decimal
 from typing import Dict
 from typing import Tuple
 
-from main.custom_types import RequestT
-from main.custom_types import ResponseT
+from django.http import HttpRequest
+from django.http import HttpResponse
+
 from main.util import render_template
 
 TEMPLATE = "tasks/lesson03/task310.html"
@@ -30,8 +31,8 @@ COINAGE: Dict[int, Tuple[str, str]]  # populated near the EOF
 NO_MONEY = "\N{EMPTY SET}"
 
 
-def handler(request: RequestT) -> ResponseT:
-    money_raw = request.query.get("money", [""])[0]
+def handler(request: HttpRequest) -> HttpResponse:
+    money_raw = request.GET.get("money", "")
     money = parse_decimal(money_raw)
 
     result1 = solution1(money)
@@ -45,7 +46,7 @@ def handler(request: RequestT) -> ResponseT:
 
     document = render_template(TEMPLATE, context)
 
-    response = ResponseT(payload=document)
+    response = HttpResponse(payload=document)
 
     return response
 

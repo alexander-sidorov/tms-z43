@@ -1,5 +1,7 @@
 *.bak
+*.log
 *.py[cod]
+*.swp
 *~
 .DS_Store
 .idea/
@@ -9,6 +11,7 @@
 .venv/
 __pycache__/
 db.sqlite3
+storage/
 tests/**/*.html
 tests/**/*.png
 venv/

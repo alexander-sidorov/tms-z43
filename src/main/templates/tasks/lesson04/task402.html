@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Задание 4.02</title>
+</head>
+<body>
+<article>
+    <p><a href="/">&lt;&lt;&lt;</a></p>
+    <hr>
+    <h1>Задание 4.02</h1>
+    <section>
+        <h2>Условие</h2>
+        <p>Просуммировать неопределенное количество чисел, вводимых пользователем.</p>
+        <p>Суммировать до тех пор, пока пользователь не введёт слово "stop".</p>
+        <div>
+            <label for="id_number">Число:</label>
+            <input id="id_number" name="number" placeholder="88" type="number" value="$number">
+            <button id="id_submit">Выполнить</button>
+        </div>
+    </section>
+    <section>
+        <h2>Результат</h2>
+        <p>
+            <span id="id_spinner" style="color: red">🌍</span>
+            <span id="id_result">?</span>
+        </p>
+    </section>
+</article>
+<script>
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function addNumber() {
+        let api_url = `/api/v1/tasks/402/`;
+        let elm_number = document.getElementById("id_number");
+        let elm_submit = document.getElementById("id_submit");
+
+        let number = parseInt(elm_number.value);
+        let original_bc = elm_submit.style.backgroundColor;
+
+        elm_submit.style.backgroundColor = "#ffd597";
+        await sleep(1000);
+
+        const response = await fetch(api_url, {
+            method: "POST",
+            cache: 'no-cache',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'number': number}),
+        });
+
+        if (response.status === 200) {
+            const payload = await response.json();
+            if (payload.ok) {
+                elm_submit.style.backgroundColor = "#b7ffa8";
+                setTimeout(() => {
+                    elm_submit.style.backgroundColor = original_bc;
+                    elm_number.value = "";
+                }, 500);
+            } else {
+                elm_submit.style.backgroundColor = "#ff8989";
+                setTimeout(() => {
+                    elm_submit.style.backgroundColor = original_bc;
+                }, 500);
+                console.log("ERROR (server declines request):", JSON.stringify(payload.reason));
+            }
+        }
+    }
+
+    async function getSum() {
+        let api_url = `/api/v1/tasks/402/`;
+        let element = document.getElementById("id_result");
+
+        const response = await fetch(api_url, {
+            method: "GET",
+        })
+
+        if (response.status === 200) {
+            const payload = await response.json();
+            if (payload.ok) {
+                element.textContent = payload.result;
+            } else {
+                console.log("ERROR (server declines request):", JSON.stringify(payload.reason));
+            }
+        }
+    }
+
+    async function thinking() {
+        const glyphs = ["🌍", "🌏", "🌎",];
+        let element = document.getElementById("id_spinner");
+
+        let position = sessionStorage.getItem("glyph_position");
+        if (!position) {
+            position = 0;
+        } else {
+            position = parseInt(position);
+        }
+        position = position % glyphs.length;
+        element.textContent = glyphs[position];
+        sessionStorage.setItem("glyph_position", (position + 1).toString())
+    }
+
+    window.onload = () => {
+        setInterval(getSum, 4000);
+        setInterval(thinking, 500);
+        document.getElementById("id_submit").onclick = addNumber;
+    };
+</script>
+</body>
+</html>

@@ -1,13 +1,14 @@
-from main.custom_types import RequestT
-from main.custom_types import ResponseT
+from django.http import HttpRequest
+from django.http import HttpResponse
+
 from main.util import render_template
 
 TEMPLATE = "tasks/lesson03/task302.html"
 
 
-def handler(request: RequestT) -> ResponseT:
-    a_raw = request.query.get("a", [""])[0]
-    b_raw = request.query.get("b", [""])[0]
+def handler(request: HttpRequest) -> HttpResponse:
+    a_raw = request.GET.get("a", "")
+    b_raw = request.GET.get("b", "")
 
     a = int(a_raw) if a_raw else 0
     b = int(b_raw) if b_raw else 0
@@ -22,6 +23,6 @@ def handler(request: RequestT) -> ResponseT:
 
     document = render_template(TEMPLATE, context)
 
-    response = ResponseT(payload=document)
+    response = HttpResponse(document)
 
     return response
