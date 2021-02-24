@@ -1,3 +1,4 @@
+import enum
 from pathlib import Path
 from string import Template
 from typing import Dict
@@ -7,22 +8,27 @@ from typing import Union
 from framework.dirs import DIR_TEMPLATES
 
 
+class TemplateEngine(enum.Enum):
+    STR_FORMAT = 1
+    STD_TEMPLATE = 2
+
+
 def render_template(
     template_path: Union[str, Path],
     context: Optional[Dict] = None,
     *,
-    engine: str = "{",
+    engine_type: TemplateEngine = TemplateEngine.STR_FORMAT,
 ) -> str:
     template = read_template(template_path)
     context = context or {}
 
     engines = {
-        "{": lambda _ctx: template.format(**_ctx),
-        "$": Template(template).safe_substitute,
+        TemplateEngine.STR_FORMAT: lambda c: template.format(**c),
+        TemplateEngine.STD_TEMPLATE: Template(template).safe_substitute,
     }
 
-    renderer = engines[engine]
-    document = renderer(context)
+    engine = engines[engine_type]
+    document = engine(context)
 
     return document
 

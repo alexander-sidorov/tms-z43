@@ -1,8 +1,7 @@
-from pathlib import Path
+from framework.dirs import DIR_SRC
+from framework.dirs import DIR_TEMPLATES
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = "j%m)c42-yq9838svb$13bw3!&@n59hhv5e*z9e0dgz-gxrw8lk"
+SECRET_KEY = ""
 
 DEBUG = True
 
@@ -50,7 +49,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": DIR_SRC / "db.sqlite3",
     }
 }
 
@@ -67,7 +66,8 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
-]
+] if not DEBUG else []
+
 
 LANGUAGE_CODE = "en-us"
 
