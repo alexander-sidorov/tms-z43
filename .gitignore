@@ -10,7 +10,8 @@
 .tests_artifacts/
 .venv/
 __pycache__/
-db.sqlite3
+*.sqlite3
+*.db
 storage/
 tests/**/*.html
 tests/**/*.png
