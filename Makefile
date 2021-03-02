@@ -31,3 +31,8 @@ migrate::
 sh:
 	$(call log, starting Django shell)
 	$(RUN) python src/manage.py shell
+
+
+.PHONY: test
+test::
+	$(RUN) python src/manage.py test -v 2 applications
