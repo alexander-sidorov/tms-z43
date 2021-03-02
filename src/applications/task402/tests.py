@@ -49,7 +49,11 @@ class TestTask402Test(TestCase):
         }
 
         for _ in "12":
-            resp = self.client.post("/tasks/402/api/", data=data, content_type="application/json")
+            resp = self.client.post(
+                "/tasks/402/api/",
+                content_type="application/json",
+                data=data,
+            )
             self.assertEqual(resp.status_code, 200)
             self.assertIn("application/json", resp["Content-Type"])
 
