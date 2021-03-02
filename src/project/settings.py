@@ -1,11 +1,11 @@
 import os
 
 import dj_database_url
-from dynaconf import settings
+from dynaconf import settings as ds
 
-SECRET_KEY = settings.SECRET_KEY
+SECRET_KEY = ds.SECRET_KEY
 
-DEBUG = settings.MODE_DEBUG
+DEBUG = ds.MODE_DEBUG
 
 ALLOWED_HOSTS = [
     "tms-z43.herokuapp.com",
@@ -53,7 +53,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project.wsgi.application"
 
-database_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
+database_url = os.getenv("DATABASE_URL", ds.DATABASE_URL)
 
 DATABASES = {
     "default": dj_database_url.parse(database_url),
