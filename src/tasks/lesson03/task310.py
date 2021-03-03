@@ -53,7 +53,9 @@ def handler(request: HttpRequest) -> HttpResponse:
 
 def solution1(money: decimal.Decimal) -> str:
     banknotes = money.to_integral_value(decimal.ROUND_FLOOR)
-    coins = (abs(money - banknotes) * 100).to_integral_value(decimal.ROUND_FLOOR)
+    coins = (abs(money - banknotes) * 100).to_integral_value(
+        decimal.ROUND_FLOOR
+    )
 
     rs = next(e for r, e in BANKNOTE_ENDINGS.items() if (banknotes % 20) in r)
     cs = next(e for r, e in COIN_ENDINGS.items() if (coins % 20) in r)

@@ -66,7 +66,10 @@ def solution(
     can_into_complex: bool,
 ) -> str:
     if not can_into_complex:
-        if any(isinstance(i[1], complex) and not zero(i[1].imag) for i in coefficients):
+        if any(
+            isinstance(i[1], complex) and not zero(i[1].imag)
+            for i in coefficients
+        ):
             raise ValueError("complex coefficients are not allowed")
 
     a, b, c = [getattr(coefficients, i) for i in "abc"]
@@ -121,7 +124,9 @@ def discriminant(
     return d
 
 
-def round_generic(number: AlgebraicNumberT, digits: int = 4) -> AlgebraicNumberT:
+def round_generic(
+    number: AlgebraicNumberT, digits: int = 4
+) -> AlgebraicNumberT:
     if isinstance(number, complex):
         a = round(number.real, digits)
         b = round(number.imag, digits)

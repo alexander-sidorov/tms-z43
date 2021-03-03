@@ -1,7 +1,11 @@
 import os
 
 
-def get_setting(setting_name, default=None, convert=lambda _value: _value or None):
+def get_setting(
+    setting_name,
+    default=None,
+    convert=lambda _value: _value or None,
+):
     """
     Returns a setting value: either from ENV, or from Dynaconf.
     If none found, default is used.

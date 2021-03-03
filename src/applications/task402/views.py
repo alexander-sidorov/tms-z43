@@ -24,7 +24,11 @@ def handle_index(request: HttpRequest) -> HttpResponse:
     number = get_accumulated(request.session)
     context = {"number": number}
 
-    document = render_template("tasks/lesson04/task402.html", context, engine_type="$")
+    document = render_template(
+        "tasks/lesson04/task402.html",
+        context,
+        engine_type="$",
+    )
 
     response = HttpResponse(document)
 

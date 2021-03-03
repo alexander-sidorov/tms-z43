@@ -13,7 +13,9 @@ def test(http_session):
                 "task402" in http_session
             ), f"{task402.add_number} does not save a number in session"
         got = task402.get_accumulated(http_session)
-        assert got == expected, f"session contains invalid number: {http_session}"
+        assert (
+            got == expected
+        ), f"session contains invalid number: {http_session}"
 
     verify_get_accumulated(session_must_be_empty=True)
     # double check to be sure get_accumulated adds no keys to session

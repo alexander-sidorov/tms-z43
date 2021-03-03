@@ -10,7 +10,10 @@ def handler(request: HttpRequest) -> HttpResponse:
     age_raw = request.GET.get("age", "")
     age = (
         None
-        if (not age_raw or (isinstance(age_raw, str) and not age_raw.isnumeric()))
+        if (
+            not age_raw
+            or (isinstance(age_raw, str) and not age_raw.isnumeric())
+        )
         else int(age_raw)
     )
 

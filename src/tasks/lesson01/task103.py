@@ -7,7 +7,9 @@ TEMPLATE = "tasks/lesson01/task103.html"
 
 
 def handler(request: HttpRequest) -> HttpResponse:
-    ages = (age1, age2, age3) = [int(request.GET.get(f"age{i}", 0)) for i in "123"]
+    ages = (age1, age2, age3) = [
+        int(request.GET.get(f"age{i}", 0)) for i in "123"
+    ]
     age_sum = sum(ages)
     age_avg = age_sum / len(ages)
 

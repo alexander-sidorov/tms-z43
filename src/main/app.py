@@ -15,7 +15,10 @@ Visit http://{host}:{port}
 
 
 def run():
-    banner = SERVER_RUNNING_BANNER.format(host=settings.HOST, port=settings.PORT)
+    banner = SERVER_RUNNING_BANNER.format(
+        host=settings.HOST,
+        port=settings.PORT,
+    )
     with make_server(settings.HOST, settings.PORT, wsgi.application) as httpd:
         print(banner)
         try:

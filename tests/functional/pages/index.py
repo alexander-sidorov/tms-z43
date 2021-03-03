@@ -4,6 +4,5 @@ from .abstract import PageElement
 from .abstract import PageObject
 
 
-class MainPage(PageObject):
-    h1 = PageElement(By.CSS_SELECTOR, "h1")
-    p = PageElement(By.CSS_SELECTOR, "p")
+class IndexPage(PageObject):
+    links = PageElement(By.CSS_SELECTOR, "article section ul")
