@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     # "django.contrib.staticfiles",
+    "applications.task103.apps.Task103Config",
     "applications.task402.apps.Task402Config",
 ]
 

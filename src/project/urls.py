@@ -7,5 +7,6 @@ from project import views
 urlpatterns = [
     path("", views.index),
     path("admin/", admin.site.urls),
+    path("tasks/103/", include("applications.task103.urls")),
     path("tasks/402/", include("applications.task402.urls")),
 ]
