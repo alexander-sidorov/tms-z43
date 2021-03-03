@@ -1,4 +1,3 @@
-import enum
 from pathlib import Path
 from string import Template
 from typing import Dict
