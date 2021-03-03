@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     # "django.contrib.staticfiles",
     "applications.task103.apps.Task103Config",
     "applications.task301.apps.Task301Config",
+    "applications.task302.apps.Task302Config",
     "applications.task402.apps.Task402Config",
 ]
 

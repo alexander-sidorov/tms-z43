@@ -9,5 +9,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("tasks/103/", include("applications.task103.urls")),
     path("tasks/301/", include("applications.task301.urls")),
+    path("tasks/302/", include("applications.task302.urls")),
     path("tasks/402/", include("applications.task402.urls")),
 ]
