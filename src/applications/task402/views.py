@@ -48,7 +48,7 @@ def handle_api(request: HttpRequest) -> HttpResponse:
 
     handler = handlers.get(request.method.upper())
     if not handler:
-        raise HttpResponseNotAllowed(f"on {request.path}")
+        return HttpResponseNotAllowed(["GET", "POST", "HEAD"])
 
     return handler(request)
 
