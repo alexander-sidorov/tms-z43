@@ -15,15 +15,15 @@
         <p>Ввести предложение.</p>
         <p>Если число символов в предложении кратно 3 - добавить ! к концу строки.</p>
         <p>Вывести строку на экран.</p>
-        <form>
+        <form action="/tasks/304/" method="post">
             <label for="id_sentence">Предложение:</label>
-            <input id="id_sentence" name="sentence" placeholder="что угодно" type="text" value="{sentence}">
-            <button type="submit">Выполнить</button>
+            <input id="id_sentence" name="sentence" placeholder="что угодно" type="text" value="{{ sentence }}">
+            <button id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
     <section>
         <h2>Результат</h2>
-        <p>{result}</p>
+        <p><span id="id_result">{{ result }}</span></p>
     </section>
 </article>
 </body>

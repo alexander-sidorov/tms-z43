@@ -11,5 +11,6 @@ urlpatterns = [
     path("tasks/301/", include("applications.task301.urls")),
     path("tasks/302/", include("applications.task302.urls")),
     path("tasks/303/", include("applications.task303.urls")),
+    path("tasks/304/", include("applications.task304.urls")),
     path("tasks/402/", include("applications.task402.urls")),
 ]
