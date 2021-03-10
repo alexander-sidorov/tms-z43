@@ -3,4 +3,5 @@ from .task301 import Task301Page
 from .task302 import Task302Page
 from .task303 import Task303Page
 from .task304 import Task304Page
+from .task305 import Task305Page
 from .task402 import Task402Page
