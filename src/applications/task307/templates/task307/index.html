@@ -16,16 +16,18 @@
         <p>Если длина строки больше 5 &mdash; вывести значение на экран.</p>
         <p>Если длина строки меньше 5 &mdash; вывести вывести строку <i>Need more!</i>.</p>
         <p>Если длина строки равна 5 &mdash; вывести вывести строку <i>It is five</i>.</p>
-        <form>
+        <form action="/tasks/307/" method="post">
             <label for="id_sentence">Строка:</label>
-            <input id="id_sentence" name="sentence" placeholder="что угодно" type="text" value="{sentence}">
-            <button type="submit">Выполнить</button>
+            <input id="id_sentence" name="sentence" placeholder="что угодно" type="text" value="{{ request.session.task307sentence|default:"" }}">
+            <button id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
+    {% if request.session.task307result is not None %}
     <section>
         <h2>Результат</h2>
-        <p>{result}</p>
+        <p><span id="id_result">{{ request.session.task307result }}</span></p>
     </section>
+    {% endif %}
 </article>
 </body>
 </html>

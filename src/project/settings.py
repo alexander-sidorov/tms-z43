@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "applications.task304.apps.Task304Config",
     "applications.task305.apps.Task305Config",
     "applications.task306.apps.Task306Config",
+    "applications.task307.apps.Task307Config",
     "applications.task402.apps.Task402Config",
 ]
 
