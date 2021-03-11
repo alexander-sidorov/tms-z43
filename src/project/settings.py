@@ -3,6 +3,9 @@ import os
 import dj_database_url
 from dynaconf import settings as ds
 
+from framework.dirs import DIR_PROJECT
+from framework.dirs import DIR_TEMPLATES
+
 SECRET_KEY = ds.SECRET_KEY
 
 DEBUG = ds.MODE_DEBUG
@@ -26,6 +29,7 @@ INSTALLED_APPS = [
     "applications.task303.apps.Task303Config",
     "applications.task304.apps.Task304Config",
     "applications.task305.apps.Task305Config",
+    "applications.task306.apps.Task306Config",
     "applications.task402.apps.Task402Config",
 ]
 
@@ -44,7 +48,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [DIR_PROJECT / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

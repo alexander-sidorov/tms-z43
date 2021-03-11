@@ -1,18 +1,18 @@
 from random import randint
 
-from django.http import HttpRequest
-from django.http import HttpResponse
-
-from main.util import render_template
-
-TEMPLATE = "index.html"
+from django.views.generic import TemplateView
 
 
-def index(_request: HttpRequest) -> HttpResponse:
-    context = {"random_number": randint(100000, 999999)}
+class IndexView(TemplateView):
+    template_name = "index.html"
 
-    document = render_template(TEMPLATE, context)
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
 
-    response = HttpResponse(document)
+        ctx.update(
+            {
+                "random_number": randint(100, 999),
+            }
+        )
 
-    return response
+        return ctx

@@ -4,10 +4,8 @@ from json import JSONDecodeError
 
 from django.http import HttpRequest
 from django.http import HttpResponse
-from django.http import HttpResponseNotAllowed
 from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-from django.views.decorators.http import require_POST
+from django.views import View
 from django.views.decorators.http import require_safe
 
 from main.util import render_template
@@ -35,71 +33,43 @@ def handle_index(request: HttpRequest) -> HttpResponse:
     return response
 
 
-@require_http_methods(("GET", "HEAD", "POST"))
-def handle_api(request: HttpRequest) -> HttpResponse:
-    """
-    This view renders the main page for this app.
-    """
+class ApiView(View):
+    def get(self, *a, **kw):
+        number = get_accumulated(self.request.session)
 
-    handlers = {
-        "GET": handle_api_get,
-        "POST": handle_api_post,
-    }
+        return self._make_api_response(number)
 
-    handler = handlers.get(request.method.upper())
-    if not handler:
-        return HttpResponseNotAllowed(["GET", "POST", "HEAD"])
+    def post(self, *a, **kw):
+        class InvalidNumberError(RuntimeError):
+            pass
 
-    return handler(request)
+        try:
+            payload = json.loads(self.request.body)
+            number = payload.get("number")
+            if number is None:
+                raise InvalidNumberError
 
+            add_number(self.request.session, number)
 
-@require_safe
-def handle_api_get(request: HttpRequest) -> JsonResponse:
-    """
-    This view returns the accumulated number
-    """
+        except (InvalidNumberError, JSONDecodeError) as err:
+            payload = {
+                "err": f"cannot process your json: {err}",
+                "ok": False,
+                "traceback": traceback.format_exc(),
+            }
 
-    number = get_accumulated(request.session)
+            return JsonResponse(payload, status=422)
 
-    return _make_api_response(number)
+        return self._make_api_response(number)
 
+    @staticmethod
+    def _make_api_response(number: int) -> JsonResponse:
+        """
+        A helper function to make a well-formed JSON response
+        """
 
-@require_POST
-def handle_api_post(request: HttpRequest) -> JsonResponse:
-    """
-    This view accepts JSON with number
-    and add a given number to the accumulator.
-    """
+        payload = {"ok": True, "number": number}
 
-    class InvalidNumberError(RuntimeError):
-        pass
+        response = JsonResponse(payload)
 
-    try:
-        payload = json.loads(request.body)
-        number = payload.get("number")
-        if number is None:
-            raise InvalidNumberError
-
-        add_number(request.session, number)
-
-    except (InvalidNumberError, JSONDecodeError) as err:
-        payload = {
-            "err": f"cannot process your json: {err}",
-            "ok": False,
-            "traceback": traceback.format_exc(),
-        }
-
-        return JsonResponse(payload, status=422)
-
-    return _make_api_response(number)
-
-
-def _make_api_response(number: int) -> JsonResponse:
-    """
-    A helper function to make a well-formed JSON response
-    """
-    payload = {"ok": True, "number": number}
-
-    response = JsonResponse(payload)
-
-    return response
+        return response

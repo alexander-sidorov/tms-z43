@@ -1,4 +1,5 @@
 import pytest
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -19,10 +20,11 @@ def test(browser, request, task_url):
 
     assert page.heading.tag_name == "h1"
     assert page.heading.text == "Задание 3.05"
-
-    assert page.result.tag_name == "span"
     assert page.sentence.tag_name == "input"
+    assert not page.sentence.text
     assert page.submit.tag_name == "button"
+    with pytest.raises(NoSuchElementException):
+        assert page.result.tag_name == "span"
 
     verify_result(page, task_url, " code ", "есть")
     verify_result(page, task_url, " code", "есть")
@@ -48,4 +50,5 @@ def verify_result(
         EC.url_to_be(task_url),
         f"no page reload",
     )
-    assert page.result.text == result
+    assert page.result.tag_name == "span"
+    assert page.result.text == result, f"mismatch for: {sentence!r}"
