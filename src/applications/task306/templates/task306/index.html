@@ -16,15 +16,15 @@
         <p>Если возраст меньше 0 &mdash; вывести <i>Wrong input</i>.</p>
         <p>Если возраст меньше 18 &mdash; вывести <i>CocaCola</i>.</p>
         <p>Иначе &mdash; вывести <i>Beer</i>.</p>
-        <form>
+        <form action="/tasks/306/" method="post">
             <label for="id_age">Возраст:</label>
-            <input id="id_age" name="age" placeholder="18" type="number" value="{age}">
-            <button type="submit">Выполнить</button>
+            <input id="id_age" name="age" placeholder="18" type="number" value="{{ age }}">
+            <button id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
     <section>
         <h2>Результат</h2>
-        <p><span style="font-size: 96px">{result}</span></p>
+        <p><span id="id_result" style="font-size: 96px">{{ result|yesno:"🍻,🍭,🤦‍♂️" }}</span></p>
     </section>
 </article>
 </body>
