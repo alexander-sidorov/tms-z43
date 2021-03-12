@@ -22,29 +22,38 @@
                 <li>Нет действительных корней</li>
             </ol>
         </div>
-        <form>
+        <form action="/tasks/309/" method="post">
             <p>
                 <label for="id_a">a:</label>
-                <input id="id_a" name="a" placeholder="4" type="text" value="{a}">
+                <input id="id_a" name="a" placeholder="4" type="text" value="{{ request.session.task309a|default:"" }}">
+                {{ form.errors.a }}
             </p>
             <p>
                 <label for="id_b">b:</label>
-                <input id="id_b" name="b" placeholder="2" type="text" value="{b}">
+                <input id="id_b" name="b" placeholder="2" type="text" value="{{ request.session.task309b|default:"" }}">
+                {{ form.errors.b }}
             </p>
             <p>
                 <label for="id_c">c:</label>
-                <input id="id_c" name="c" placeholder="1" type="text" value="{c}">
+                <input id="id_c" name="c" placeholder="1" type="text" value="{{ request.session.task309c|default:"" }}">
+                {{ form.errors.c }}
             </p>
             <p>
                 <label for="id_can_into_complex">Я умею в комплексные числа</label>
-                <input id="id_can_into_complex" name="can_into_complex" type="checkbox" {can_into_complex}>
+                <input id="id_can_into_complex" name="can_into_complex" type="checkbox" {{ request.session.task309cic|yesno:"checked," }}>
             </p>
-            <button type="submit">Выполнить</button>
+            <button id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
     <section>
-        <h2>Результат</h2>
-        <pre>{result}</pre>
+        {% if request.session.task309result %}
+            <h2>Результат</h2>
+            <p><span id="id_result">{{ request.session.task309result }}</span></p>
+        {% endif %}
+        {% if request.session.task309reason %}
+            <h2>Проблема</h2>
+            <p><span id="id_reason">{{ request.session.task309reason }}</span></p>
+        {% endif %}
     </section>
 </article>
 </body>
