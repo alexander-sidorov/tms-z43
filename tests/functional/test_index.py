@@ -20,7 +20,12 @@ def validate_title(page: IndexPage):
 
 
 def validate_content(page: IndexPage):
-    lesson_links_groups = page.links.find_elements_by_xpath("./li")
+    validate_tasks_content(page)
+    validate_projects_content(page)
+
+
+def validate_tasks_content(page: IndexPage):
+    lesson_links_groups = page.tasks.find_elements_by_xpath("./li")
     assert len(lesson_links_groups) == 3
 
     expected_links = {
@@ -64,3 +69,20 @@ def validate_content(page: IndexPage):
         )
 
         assert expected == got
+
+
+def validate_projects_content(page: IndexPage):
+    project_links_lis = page.projects.find_elements_by_xpath("./li")
+    assert len(project_links_lis) == 1
+
+    expected_links = {
+        "/b/": "Блог",
+    }
+
+    for li in project_links_lis:
+        a = li.find_element_by_xpath("./a")
+        href = a.get_attribute("href")
+        url = urlsplit(href)
+
+        expected_name = expected_links.get(url.path)
+        assert a.text == expected_name, f"mismatch for {url.path}"
