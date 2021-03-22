@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<article>
+    <p><a href="/">&lt;&lt;&lt;</a></p>
+    <hr>
+    <h1>{% block heading %}{% endblock %}</h1>
+    {% block main %}{% endblock %}
+</article>
+</body>
+</html>
