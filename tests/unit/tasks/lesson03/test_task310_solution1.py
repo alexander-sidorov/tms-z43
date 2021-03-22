@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import pytest
 
-from tasks.lesson03.task310 import solution1
+from applications.task310.logic import solution1
 
 
 @pytest.mark.unit

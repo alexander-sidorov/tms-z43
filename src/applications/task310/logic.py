@@ -1,13 +1,7 @@
 import decimal
 from typing import Dict
 from typing import Tuple
-
-from django.http import HttpRequest
-from django.http import HttpResponse
-
-from main.util import render_template
-
-TEMPLATE = "tasks/lesson03/task310.html"
+from typing import Union
 
 BANKNOTE_ENDINGS = {
     range(0, 1): "ей",
@@ -29,26 +23,6 @@ COIN_STEM = "копе"
 
 COINAGE: Dict[int, Tuple[str, str]]  # populated near the EOF
 NO_MONEY = "\N{EMPTY SET}"
-
-
-def handler(request: HttpRequest) -> HttpResponse:
-    money_raw = request.GET.get("money", "")
-    money = parse_decimal(money_raw)
-
-    result1 = solution1(money)
-    result2 = solution2(money)
-
-    context = {
-        "money": money_raw,
-        "result1": result1,
-        "result2": result2,
-    }
-
-    document = render_template(TEMPLATE, context)
-
-    response = HttpResponse(payload=document)
-
-    return response
 
 
 def solution1(money: decimal.Decimal) -> str:
@@ -85,12 +59,16 @@ def solution2(money: decimal.Decimal) -> str:
     return result
 
 
-def parse_decimal(value: str) -> decimal.Decimal:
+def parse_decimal(value: Union[str, decimal.Decimal]) -> decimal.Decimal:
+    if isinstance(value, decimal.Decimal):
+        return value
+
     if not value:
         value = "0"
 
     value = value.replace(" ", "").replace(",", ".")
     result = decimal.Decimal(value)
+
     return result
 
 

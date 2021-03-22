@@ -48,20 +48,22 @@
                 </ul>
             </div>
         </section>
-        <form>
+        <form action="/tasks/310/" method="post">
             <label for="id_money">Деньги:</label>
-            <input id="id_money" name="money" placeholder="888.88" type="text" value="{money}">
-            <button type="submit">Выполнить</button>
+            <input id="id_money" name="money" placeholder="888.88" type="text" value="{{ request.session.task310money }}">
+            <button id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
-    <section>
-        <h2>Результаты</h2>
-        <p>Ответ на условие из методички: {result1}</p>
-        <div>
-            <p>Ответ на дополнительное условие:</p>
-            <pre style="font-size: 2rem">{result2}</pre>
-        </div>
-    </section>
+    {% if request.session.task310result %}
+        <section>
+            <h2>Результаты</h2>
+            <p>Ответ на условие из методички: <span id="id_result1">{{ request.session.task310result.methodic }}</span></p>
+            <div>
+                <p>Ответ на дополнительное условие:</p>
+                <pre id="id_result2" style="font-size: 2rem">{{ request.session.task310result.additional|safe }}</pre>
+            </div>
+        </section>
+    {% endif %}
 </article>
 </body>
 </html>
