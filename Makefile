@@ -25,3 +25,14 @@ include ./Makefile.targets.mk
 .PHONY: migrate
 migrate::
 	$(PYTHON) src/manage.py migrate
+
+
+.PHONY: sh
+sh:
+	$(call log, starting Django shell)
+	$(RUN) python src/manage.py shell
+
+
+.PHONY: test
+test::
+	$(RUN) python src/manage.py test -v 2 applications

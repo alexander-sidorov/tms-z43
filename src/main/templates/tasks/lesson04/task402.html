@@ -29,12 +29,13 @@
     </section>
 </article>
 <script>
+    const API_PATH = `/tasks/402/api/`;
+
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     async function addNumber() {
-        let api_url = `/api/v1/tasks/402/`;
         let elm_number = document.getElementById("id_number");
         let elm_submit = document.getElementById("id_submit");
 
@@ -44,7 +45,7 @@
         elm_submit.style.backgroundColor = "#ffd597";
         await sleep(1000);
 
-        const response = await fetch(api_url, {
+        const response = await fetch(API_PATH, {
             method: "POST",
             cache: 'no-cache',
             headers: {'Content-Type': 'application/json'},
@@ -64,25 +65,24 @@
                 setTimeout(() => {
                     elm_submit.style.backgroundColor = original_bc;
                 }, 500);
-                console.log("ERROR (server declines request):", JSON.stringify(payload.reason));
+                console.log("ERROR (server declines request):", JSON.stringify(payload.err));
             }
         }
     }
 
     async function getSum() {
-        let api_url = `/api/v1/tasks/402/`;
         let element = document.getElementById("id_result");
 
-        const response = await fetch(api_url, {
+        const response = await fetch(API_PATH, {
             method: "GET",
         })
 
         if (response.status === 200) {
             const payload = await response.json();
             if (payload.ok) {
-                element.textContent = payload.result;
+                element.textContent = payload.number;
             } else {
-                console.log("ERROR (server declines request):", JSON.stringify(payload.reason));
+                console.log("ERROR (server declines request):", JSON.stringify(payload.err));
             }
         }
     }
@@ -103,7 +103,7 @@
     }
 
     window.onload = () => {
-        setInterval(getSum, 4000);
+        setInterval(getSum, 1000);
         setInterval(thinking, 500);
         document.getElementById("id_submit").onclick = addNumber;
     };

@@ -18,7 +18,7 @@ format:
 
 
 .PHONY: test
-test:
+test::
 	$(call log, running tests)
 	$(RUN) pytest
 	$(RUN) isort --virtual-env="$(DIR_VENV)" --check-only "$(DIR_SRC)" "$(DIR_TESTS)"
@@ -40,23 +40,21 @@ sh:
 venv:
 	$(call log, installing packages)
 	test -d .venv || mkdir .venv
-	$(PIPENV_INSTALL)
-
 
 .PHONY: venv-dev
-venv-dev:
+venv-dev: venv
 	$(call log, installing development packages)
 	$(PIPENV_INSTALL) --dev
 
 
 .PHONY: venv-prod
-venv-prod:
+venv-prod: venv
 	$(call log, installing development packages for production)
 	$(PIPENV_INSTALL) --deploy
 
 
 .PHONY: upgrade-venv
-upgrade-venv:
+upgrade-venv: venv-dev
 	$(call log, upgrading all packages in virtualenv)
 	$(PYTHON) $(DIR_SCRIPTS)/upgrade_packages.py
 

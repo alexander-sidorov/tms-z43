@@ -1,14 +1,20 @@
 import pytest
 
-from tasks.lesson03.task311 import solution
+from applications.task311.logic import solution
 
 
 @pytest.mark.unit
 def test():
     test_data = {
-        "": (None, "malformed email '': cannot distinguish parts without '@' sign"),
+        "": (
+            None,
+            "malformed email '': cannot distinguish parts without '@' sign",
+        ),
         "@": (None, "malformed email '@': no local-part provided"),
-        "@gmail.com": (None, "malformed email '@gmail.com': no local-part provided"),
+        "@gmail.com": (
+            None,
+            "malformed email '@gmail.com': no local-part provided",
+        ),
         "test@": (None, "malformed email 'test@': no domain provided"),
         "test@example.com": (
             None,

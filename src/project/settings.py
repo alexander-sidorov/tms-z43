@@ -1,11 +1,14 @@
 import os
 
 import dj_database_url
-from dynaconf import settings
+from dynaconf import settings as ds
 
-SECRET_KEY = settings.SECRET_KEY
+from framework.dirs import DIR_PROJECT
+from framework.dirs import DIR_TEMPLATES
 
-DEBUG = settings.MODE_DEBUG
+SECRET_KEY = ds.SECRET_KEY
+
+DEBUG = ds.MODE_DEBUG
 
 ALLOWED_HOSTS = [
     "tms-z43.herokuapp.com",
@@ -20,6 +23,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     # "django.contrib.staticfiles",
+    "applications.task103.apps.Task103Config",
+    "applications.task301.apps.Task301Config",
+    "applications.task302.apps.Task302Config",
+    "applications.task303.apps.Task303Config",
+    "applications.task304.apps.Task304Config",
+    "applications.task305.apps.Task305Config",
+    "applications.task306.apps.Task306Config",
+    "applications.task307.apps.Task307Config",
+    "applications.task309.apps.Task309Config",
+    "applications.task310.apps.Task310Config",
+    "applications.task311.apps.Task311Config",
+    "applications.task402.apps.Task402Config",
 ]
 
 MIDDLEWARE = [
@@ -37,7 +52,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [DIR_PROJECT / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -52,7 +67,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project.wsgi.application"
 
-database_url = os.getenv("DATABASE_URL", settings.DATABASE_URL)
+database_url = os.getenv("DATABASE_URL", ds.DATABASE_URL)
 
 DATABASES = {
     "default": dj_database_url.parse(database_url),

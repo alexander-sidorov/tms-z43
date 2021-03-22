@@ -1,1 +1,2 @@
-from .main import MainPage
+from .index import IndexPage
+from .tasks import *

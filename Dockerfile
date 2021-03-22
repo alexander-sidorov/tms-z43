@@ -28,7 +28,8 @@ WORKDIR /app/
 
 COPY ./ ./
 
-RUN make venv-prod release
+RUN pipenv --three
+RUN make venv-dev
 
 EXPOSE 80
 

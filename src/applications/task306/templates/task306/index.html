@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Задание 3.06</title>
+</head>
+<body>
+<article>
+    <p><a href="/">&lt;&lt;&lt;</a></p>
+    <hr>
+    <h1>Задание 3.06</h1>
+    <section>
+        <h2>Условие</h2>
+        <p>Запросить у пользователя возраст.</p>
+        <p>Если возраст меньше 0 &mdash; вывести <i>Wrong input</i>.</p>
+        <p>Если возраст меньше 18 &mdash; вывести <i>CocaCola</i>.</p>
+        <p>Иначе &mdash; вывести <i>Beer</i>.</p>
+        <form action="/tasks/306/" method="post">
+            <label for="id_age">Возраст:</label>
+            <input id="id_age" name="age" placeholder="18" type="number" value="{{ age }}">
+            <button id="id_submit" type="submit">Выполнить</button>
+        </form>
+    </section>
+    <section>
+        <h2>Результат</h2>
+        <p><span id="id_result" style="font-size: 96px">{{ result|yesno:"🍻,🍭,🤦‍♂️" }}</span></p>
+    </section>
+</article>
+</body>
+</html>

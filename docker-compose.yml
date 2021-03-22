@@ -1,35 +1,52 @@
 version: "3.3"
 services:
-  alpha-web:
+  z43-web:
     build: ./
-    container_name: alpha-web
+    container_name: z43-web
     depends_on:
-      - alpha-db
-    entrypoint: ["make", "wait-for-db", "run-prod"]
+      - z43-db
+    entrypoint: [ "make", "wait-for-db", "release", "run-prod" ]
     environment:
       PORT: 80
-      DATABASE_URL: "postgresql://alpha:alpha@alpha-db:5432/alpha"
-    image: alpha-web
+      DATABASE_URL: "postgresql://z43:z43@z43-db:5432/z43"
+    image: z43-web
     ports:
       - "8888:80"
-  alpha-db:
-    container_name: alpha-db
+#  z43-tests:
+#    container_name: z43-tests
+#    depends_on:
+#      - z43-web
+#    entrypoint: [ "make", "test" ]
+#    environment:
+#      PORT: 80
+#      DATABASE_URL: "postgresql://z43:z43@z43-db:5432/z43"
+#    image: z43-web
+#    ports:
+#      - "8888:80"
+  z43-db:
+    container_name: z43-db
     environment:
-      POSTGRES_USER: alpha
-      POSTGRES_PASSWORD: alpha
-      POSTGRES_DB: alpha
+      POSTGRES_USER: z43
+      POSTGRES_PASSWORD: z43
+      POSTGRES_DB: z43
     image: postgres:13.1-alpine
     ports:
       - "5555:5432"
-    restart: always
-  alpha-dba:
-    container_name: alpha-dba
+    volumes:
+      - z43-volume:/var/lib/postgresql/data
+  z43-dba:
+    container_name: z43-dba
     image: adminer
     restart: always
     ports:
       - 5556:8080
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - z43-volume:/var/lib/postgresql/data
 volumes:
-  db-data:
-
+  z43-volume:
+    name: z43-volume
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=100m

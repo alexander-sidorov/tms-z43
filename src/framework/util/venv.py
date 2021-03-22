@@ -1,19 +1,25 @@
+#!/usr/bin/env python
 # XXX: Makefile.in.mk depends on the position of this file
 # XXX: Mac OS X still uses Python 2 as system python, so this code MUST work under Python 2
 
+"""
+Exits with 1 when called within active Python virtualenv
+"""
+import os
 import sys
 
 
 def in_virtualenv():
     try:
-        from framework.util.settings import get_setting
-    except ImportError:
-        # noinspection PyUnresolvedReferences
-        from settings import get_setting
+        from framework.config import settings
 
-    synth_venv = get_setting("VENV_SYNTHETIC", False, convert=bool)
+        synth_venv = settings.VENV_SYNTHETIC
+    except ImportError:
+        env_value = os.getenv("VENV_SYNTHETIC", "False").capitalize()
+        synth_venv = bool(eval(env_value))
+
     actual_venv = _discover_venv_by_prefix()
-    return synth_venv or actual_venv
+    return bool(synth_venv or actual_venv)
 
 
 def _discover_venv_by_prefix():

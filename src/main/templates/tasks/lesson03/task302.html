@@ -14,7 +14,7 @@
         <h2>Условие</h2>
         <p>Запросить у пользователя два целых числа.</p>
         <p>Вывести строку вида <i>"2 плюс 3 равно 5"</i></p>
-        <form>
+        <form action="/tasks/302/" method="post">
             <p>
                 <label for="id_a">A:</label>
                 <input id="id_a" name="a" placeholder="14" type="number" value="{a}">
@@ -23,12 +23,12 @@
                 <label for="id_b">B:</label>
                 <input id="id_b" name="b" placeholder="88" type="number" value="{b}">
             </p>
-            <button type="submit">Выполнить</button>
+            <button id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
     <section>
         <h2>Результат</h2>
-        <p>{result}</p>
+        <p><span id="id_result">{result}</span></p>
     </section>
 </article>
 </body>

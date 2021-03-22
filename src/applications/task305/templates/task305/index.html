@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Задание 3.05</title>
+</head>
+<body>
+<article>
+    <p><a href="/">&lt;&lt;&lt;</a></p>
+    <hr>
+    <h1>Задание 3.05</h1>
+    <section>
+        <h2>Условие</h2>
+        <p>Ввести предложение.</p>
+        <p>Если в предложении есть слово code &mdash; вывести на экран Yes.</p>
+        <p>Иначе &mdash; вывести на экран No.</p>
+        <form action="/tasks/305/" method="post">
+            <label for="id_sentence">Предложение:</label>
+            <input id="id_sentence" name="sentence" placeholder="что угодно" type="text" value="{{ request.session.task305sentence|default:"" }}">
+            <button id="id_submit" type="submit">Выполнить</button>
+        </form>
+    </section>
+    {% if request.session.task305result is not None %}
+    <section>
+        <h2>Результат</h2>
+        <p>Слово "code": <span id="id_result">{{ request.session.task305result|yesno:"есть,нету" }}</span></p>
+    </section>
+    {% endif %}
+</article>
+</body>
+</html>

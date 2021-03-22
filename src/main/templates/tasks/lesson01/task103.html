@@ -9,7 +9,7 @@
 <article>
     <p><a href="/">&lt;&lt;&lt;</a></p>
     <hr>
-    <h1>Задание 3.03</h1>
+    <h1>Задание 1.03</h1>
     <section>
         <h2>Условие</h2>
         <p>Создать три переменные, содержащие возраст трех ближайших соседей.</p>
@@ -19,7 +19,7 @@
             равную среднему арифметическому возрасту,
             и вывести это значение на экран.
         </p>
-        <form>
+        <form action="/tasks/103/" method="post">
             <p>
                 <label for="id_age1">Ближайший сосед 1:</label>
                 <input id="id_age1" name="age1" placeholder="20" type="number" value="{age1}">
@@ -32,14 +32,14 @@
                 <label for="id_age3">Ближайший сосед 3:</label>
                 <input id="id_age3" name="age3" placeholder="40" type="number" value="{age3}">
             </p>
-            <button type="submit">Выполнить</button>
+            <button id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
     <section>
         <h2>Результат</h2>
-        <p>Возрасты: {ages}</p>
-        <p>Сумма: {age_sum}</p>
-        <p>Среднее: {age_avg:.1f}</p>
+        <p>Возрасты: <span id="id_result_ages">{ages}</span></p>
+        <p>Сумма: <span id="id_result_sum">{age_sum}</span></p>
+        <p>Среднее: <span id="id_result_avg">{age_avg:.1f}</span></p>
     </section>
 </article>
 </body>
