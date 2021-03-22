@@ -22,7 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    # "django.contrib.staticfiles",
+    "django.contrib.staticfiles",
     "applications.blog.apps.BlogConfig",
     "applications.task103.apps.Task103Config",
     "applications.task301.apps.Task301Config",
