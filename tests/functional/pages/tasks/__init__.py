@@ -8,4 +8,5 @@ from .task306 import Task306Page
 from .task307 import Task307Page
 from .task309 import Task309Page
 from .task310 import Task310Page
+from .task311 import Task311Page
 from .task402 import Task402Page

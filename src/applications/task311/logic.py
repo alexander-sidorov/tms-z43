@@ -1,34 +1,6 @@
 from typing import NoReturn
 from typing import Optional
 
-from django.http import HttpRequest
-from django.http import HttpResponse
-
-from main.util import render_template
-
-TEMPLATE = "tasks/lesson03/task311.html"
-
-
-def handler(request: HttpRequest) -> HttpResponse:
-    email = request.GET.get("email", "")
-
-    try:
-        solution(email)
-        result = email
-    except ValueError as err:
-        result = str(err)
-
-    context = {
-        "email": email,
-        "result": result,
-    }
-
-    document = render_template(TEMPLATE, context)
-
-    response = HttpResponse(payload=document)
-
-    return response
-
 
 def solution(email: str) -> Optional[NoReturn]:
     if "@" not in email:
