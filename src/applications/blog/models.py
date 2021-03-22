@@ -12,3 +12,6 @@ class Post(models.Model):
 
     def __str__(self) -> str:
         return f"{self.title} ({self.pk})"
+
+    def get_absolute_url(self) -> str:
+        return f"/b/{self.pk}/"

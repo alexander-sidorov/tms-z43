@@ -1,4 +1,12 @@
 {% extends "_base.html" %}
 {% block title %}/b/{% endblock %}
 {% block heading %}/b/{% endblock %}
-{% block main %}All posts{% endblock %}
+{% block main %}
+    {% for obj in object_list %}
+        <section>
+            <a href="{{ obj.get_absolute_url }}"><h2>{{ obj.title }}</h2></a>
+            <p>{{ obj.content }}</p>
+            <p><span>{{ obj.nr_views }}</span><span>{{ obj.nr_likes }}</span></p>
+        </section>
+    {% endfor %}
+{% endblock %}
