@@ -1,34 +1,35 @@
-from django.http import HttpRequest
-from django.http import HttpResponse
-from django.views.decorators.http import require_http_methods
-
-from main.util import render_template
-
-TEMPLATE = "tasks/lesson03/task302.html"
+from django import forms
+from django.views.generic import FormView
 
 
-@require_http_methods(["GET", "HEAD", "POST"])
-def handle_index(request: HttpRequest) -> HttpResponse:
-    """
-    This view renders the main page for this app.
-    """
+class Task302Form(forms.Form):
+    a = forms.IntegerField(required=False)
+    b = forms.IntegerField(required=False)
 
-    a_raw = request.POST.get("a", "")
-    b_raw = request.POST.get("b", "")
 
-    a = int(a_raw) if a_raw else 0
-    b = int(b_raw) if b_raw else 0
+class IndexView(FormView):
+    form_class = Task302Form
+    success_url = "/tasks/302/"
+    template_name = "task302/index.html"
 
-    result = f"{a} плюс {b} равно {a + b}"
+    def form_valid(self, form):
+        a = form.cleaned_data.get("a")
+        b = form.cleaned_data.get("b")
 
-    context = {
-        "a": a_raw,
-        "b": b_raw,
-        "result": result,
-    }
+        data = {
+            "task302a": a,
+            "task302b": b,
+            "task302result": None,
+        }
 
-    document = render_template(TEMPLATE, context)
+        if a and b:
+            result = f"{a} плюс {b} равно {a + b}"
+            data.update(
+                {
+                    "task302result": result,
+                }
+            )
 
-    response = HttpResponse(document)
+        self.request.session.update(data)
 
-    return response
+        return super().form_valid(form)
