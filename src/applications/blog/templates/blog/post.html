@@ -10,7 +10,7 @@
 
     <section class="card-body">
         <h2 class="card-title">{{ object.title }}</h2>
-        <h6 class="card-subtitle">🤦‍♂️ {{ object.author|default:"народ" }} | 👍🏻 {{ object.nr_likes }} | 👀 {{ object.nr_views }}</h6>
+        <h6 class="card-subtitle mb-2">🤦‍♂️&nbsp;{{ object.author|default:"народ" }}&nbsp;|&nbsp;👍🏻&nbsp;{{ object.nr_likes }}&nbsp;|&nbsp;👀&nbsp;{{ object.nr_views }}</h6>
 
         <p class="card-text">
             {% if post_trunc %}
