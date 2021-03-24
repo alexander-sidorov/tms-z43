@@ -42,8 +42,8 @@
         </section>
         <form action="/tasks/310/" method="post">
             <label for="id_money">Деньги:</label>
-            <input id="id_money" name="money" placeholder="888.88" type="text" value="{{ request.session.task310money }}">
-            <button id="id_submit" type="submit">Выполнить</button>
+            <input id="id_money" name="money" placeholder="888.88" type="text" value="{{ request.session.task310money|default:"" }}">
+            <button class="btn btn-danger" id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
     {% if request.session.task310result %}

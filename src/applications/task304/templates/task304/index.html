@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Задание 3.04</title>
-</head>
-<body>
-<article>
-    <p><a href="/">&lt;&lt;&lt;</a></p>
-    <hr>
-    <h1>Задание 3.04</h1>
+{% extends "_base.html" %}
+{% block title %}Задание 3.04{% endblock %}
+{% block heading %}Задание 3.04{% endblock %}
+{% block main %}
     <section>
         <h2>Условие</h2>
         <p>Ввести предложение.</p>
@@ -25,6 +17,4 @@
         <h2>Результат</h2>
         <p><span id="id_result">{{ result }}</span></p>
     </section>
-</article>
-</body>
-</html>
+{% endblock %}

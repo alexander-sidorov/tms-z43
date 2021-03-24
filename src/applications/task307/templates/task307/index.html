@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Задание 3.07</title>
-</head>
-<body>
-<article>
-    <p><a href="/">&lt;&lt;&lt;</a></p>
-    <hr>
-    <h1>Задание 3.07</h1>
+{% extends "_base.html" %}
+{% block title %}Задание 3.07{% endblock %}
+{% block heading %}Задание 3.07{% endblock %}
+{% block main %}
     <section>
         <h2>Условие</h2>
         <p>Ввести строку с клавиатуры.</p>
@@ -23,11 +15,9 @@
         </form>
     </section>
     {% if request.session.task307result is not None %}
-    <section>
-        <h2>Результат</h2>
-        <p><span id="id_result">{{ request.session.task307result }}</span></p>
-    </section>
+        <section>
+            <h2>Результат</h2>
+            <p><span id="id_result">{{ request.session.task307result }}</span></p>
+        </section>
     {% endif %}
-</article>
-</body>
-</html>
+{% endblock %}

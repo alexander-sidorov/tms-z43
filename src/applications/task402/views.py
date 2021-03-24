@@ -5,12 +5,12 @@ from json import JSONDecodeError
 from django.http import HttpRequest
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views import View
 from django.views.decorators.http import require_safe
 
-from main.util import render_template
-from tasks.lesson04.task402 import add_number
-from tasks.lesson04.task402 import get_accumulated
+from applications.task402.logic import add_number
+from applications.task402.logic import get_accumulated
 
 
 @require_safe
@@ -22,10 +22,10 @@ def handle_index(request: HttpRequest) -> HttpResponse:
     number = get_accumulated(request.session)
     context = {"number": number}
 
-    document = render_template(
-        "tasks/lesson04/task402.html",
+    document = render(
+        request,
+        "task402/index.html",
         context,
-        engine_type="$",
     )
 
     response = HttpResponse(document)
