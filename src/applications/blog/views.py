@@ -1,3 +1,4 @@
+from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
@@ -10,3 +11,8 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+
+
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = "/b/"

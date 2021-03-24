@@ -22,6 +22,11 @@
         <p><a href="{{ post_action }}">
             <button class="btn {{ post_btn_class }}" type="button">{{ post_btn_text }}</button>
         </a></p>
+        {% if not post_trunc %}
+            <form action="{{ object.get_absolute_url }}delete/" method="post">
+                <button class="btn btn-danger" type="submit">Delete</button>
+            </form>
+        {% endif %}
     </section>
 
 </section>
