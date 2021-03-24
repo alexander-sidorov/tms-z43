@@ -6,7 +6,7 @@ from project import views
 
 urlpatterns = [
     path("", views.IndexView.as_view()),
-    path("accounts/", include('django.contrib.auth.urls')),
+    path("accounts/", include("django.contrib.auth.urls")),
     path("admin/", admin.site.urls),
     path("b/", include("applications.blog.urls")),
     path("tasks/103/", include("applications.task103.urls")),
