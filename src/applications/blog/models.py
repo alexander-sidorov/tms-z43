@@ -1,12 +1,36 @@
+from django.contrib.auth import get_user_model
 from django.db import models
+
+User = get_user_model()
 
 
 class Post(models.Model):
-    title = models.CharField(null=True, blank=True, max_length=200)
-    content = models.TextField(null=True, blank=True)
-    image = models.URLField(null=True, blank=True)
-    nr_views = models.IntegerField(default=0)
-    nr_likes = models.IntegerField(default=0)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        db_index=True,
+        null=True,
+        blank=True,
+    )
+    title = models.CharField(
+        null=True,
+        blank=True,
+        max_length=200,
+    )
+    content = models.TextField(
+        null=True,
+        blank=True,
+    )
+    image = models.URLField(
+        null=True,
+        blank=True,
+    )
+    nr_views = models.IntegerField(
+        default=0,
+    )
+    nr_likes = models.IntegerField(
+        default=0,
+    )
 
     class Meta:
         ordering = ["title", "-id"]
