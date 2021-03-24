@@ -25,8 +25,10 @@
         </a></p>
         {% if request.user == object.author %}
             {% if not post_trunc %}
+                <form action="{{ object.get_absolute_url }}update/" method="get">
+                    <button class="btn btn-warning" type="submit">Update</button>
+                </form>
                 <form action="{{ object.get_absolute_url }}delete/" method="post">
-                    {% csrf_token %}
                     <button class="btn btn-danger" type="submit">Delete</button>
                 </form>
             {% endif %}

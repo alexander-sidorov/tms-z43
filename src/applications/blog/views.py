@@ -3,6 +3,7 @@ from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
+from django.views.generic import UpdateView
 
 from applications.blog.models import Post
 
@@ -23,10 +24,14 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     fields = ["title", "content", "image"]
     model = Post
-    success_url = "/b/"
 
     def form_valid(self, form):
         r = super().form_valid(form)
         self.object.author = self.request.user
         self.object.save()
         return r
+
+
+class PostUpdateView(UpdateView):
+    fields = ["title", "content", "image"]
+    model = Post
