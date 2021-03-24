@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+
+{% block title %}New post{% endblock %}
+
+{% block heading %}New post{% endblock %}
+
+{% block main %}
+    <form action="/b/new/" method="post">
+        {{ form.as_p }}
+        <button class="btn btn-danger" type="submit">Точно создать</button>
+    </form>
+{% endblock %}

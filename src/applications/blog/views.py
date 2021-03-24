@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView
 from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
@@ -13,6 +15,18 @@ class PostDetailView(DetailView):
     model = Post
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = "/b/"
+
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    fields = ["title", "content", "image"]
+    model = Post
+    success_url = "/b/"
+
+    def form_valid(self, form):
+        r = super().form_valid(form)
+        self.object.author = self.request.user
+        self.object.save()
+        return r

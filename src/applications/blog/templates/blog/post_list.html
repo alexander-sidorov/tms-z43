@@ -5,6 +5,15 @@
 {% block heading %}/b/{% endblock %}
 
 {% block main %}
+    {% if not request.user.is_anonymous %}
+        <div class="row">
+            <div class="col">
+                <form action="/b/new/" method="get">
+                    <button class="btn btn-success" type="submit">Create a post</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
     <div class="row">
         {% for object in object_list %}
             <div class="col-sm-6 g-2">

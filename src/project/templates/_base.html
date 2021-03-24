@@ -20,6 +20,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if request.user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'admin:index' %}">Admin</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/b/">Blog</a>
                 </li>
@@ -54,6 +59,7 @@
 </nav>
 
 <main class="container">
+    <h1>Кто я? {{ request.user }}</h1>
     <div class="row">
         <div class="col">
             <h1>{% block heading %}{% endblock %}</h1>
