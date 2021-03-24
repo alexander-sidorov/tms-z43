@@ -32,6 +32,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return r
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["title", "content", "image"]
     model = Post

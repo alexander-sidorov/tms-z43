@@ -14,7 +14,7 @@
 
         <p class="card-text">
             {% if post_trunc %}
-                {{ object.content|truncatewords:4 }}
+                {{ object.content|truncatewords:12 }}
             {% else %}
                 {{ object.content }}
             {% endif %}

@@ -20,11 +20,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                {% if request.user.is_staff %}
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{% url 'admin:index' %}">Admin</a>
-                    </li>
-                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/b/">Blog</a>
                 </li>
@@ -53,6 +48,32 @@
                         <li><a class="dropdown-item" href="/tasks/402/">Задача 4.02</a></li>
                     </ul>
                 </li>
+            </ul>
+            <ul class="navbar-nav me-2 mb-2 mb-lg-0">
+                {% if request.user.is_staff %}
+                    <li class="nav-item"><a aria-current="page" class="nav-link" href="{% url 'admin:index' %}">Admin panel</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <form aria-current="page" class="nav-link" action="{% url 'password_change' %}">
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button class="btn btn-outline-light" type="submit">Change password</button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <form aria-current="page" class="nav-link" action="{% url 'logout' %}">
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button class="btn btn-outline-light" type="submit">Log out</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <form aria-current="page" class="nav-link" action="{% url 'login' %}">
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button class="btn btn-outline-light" type="submit">Log in</button>
+                        </form>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
