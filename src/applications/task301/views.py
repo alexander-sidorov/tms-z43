@@ -1,27 +1,31 @@
-from django.http import HttpRequest
-from django.http import HttpResponse
-from django.views.decorators.http import require_http_methods
-
-from main.util import render_template
-
-TEMPLATE = "tasks/lesson03/task301.html"
+from django import forms
+from django.views.generic import FormView
 
 
-@require_http_methods(["GET", "HEAD", "POST"])
-def handle_index(request: HttpRequest) -> HttpResponse:
-    """
-    This view renders the main page for this app.
-    """
+class Task301Form(forms.Form):
+    name = forms.CharField(required=False)
 
-    name = request.POST.get("name", "")
 
-    context = {
-        "input_name": name,
-        "greeting_name": name or "anonymous",
-    }
+class IndexView(FormView):
+    form_class = Task301Form
+    success_url = "/tasks/301/"
+    template_name = "task301/index.html"
 
-    document = render_template(TEMPLATE, context, engine_type="$")
+    def form_valid(self, form):
+        name = form.cleaned_data.get("name")
 
-    response = HttpResponse(document)
+        data = {
+            "task301greeting": None,
+            "task301name": name,
+        }
 
-    return response
+        if name:
+            data.update(
+                {
+                    "task301greeting": name or "anonymous",
+                }
+            )
+
+        self.request.session.update(data)
+
+        return super().form_valid(form)

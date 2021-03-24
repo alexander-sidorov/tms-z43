@@ -1,0 +1,21 @@
+{% extends "_base.html" %}
+{% block title %}Задание 3.01{% endblock %}
+{% block heading %}Задание 3.01{% endblock %}
+{% block main %}
+    <section>
+        <h2>Условие</h2>
+        <p>Ввести с клавиатуры имя пользователя.</p>
+        <p>Вывести на экран <i>"Hello, [name]!"</i></p>
+        <form action="/tasks/301/" method="post">
+            <label for="id_name">Кто ты?</label>
+            <input id="id_name" name="name" placeholder="анон" type="text" value="{{ request.session.task301name }}">
+            <button id="id_submit" class="btn btn-danger" type="submit">Выполнить</button>
+        </form>
+    </section>
+    {% if request.session.task301greeting %}
+        <section>
+            <h2>Результат</h2>
+            <p>Hello, <span id="id_greeting">{{ request.session.task301greeting }}</span></p>
+        </section>
+    {% endif %}
+{% endblock %}
