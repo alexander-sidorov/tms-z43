@@ -4,10 +4,9 @@ from django.views.generic import ListView
 from applications.blog.models import Post
 
 
-class AllPostsView(ListView):
+class PostListView(ListView):
     model = Post
-    template_name = "blog/all-posts.html"
 
 
-class PostView(DetailView):
+class PostDetailView(DetailView):
     model = Post

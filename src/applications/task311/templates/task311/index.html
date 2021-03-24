@@ -11,7 +11,7 @@
         <form action="/tasks/311/" method="post">
             <label for="id_email">Почта:</label>
             <input id="id_email" name="email" placeholder="test@example.com" type="text" value="{{ request.session.task311email }}">
-            <button id="id_submit" type="submit">Выполнить</button>
+            <button class="btn btn-danger" id="id_submit" type="submit">Выполнить</button>
         </form>
     </section>
     {% if request.session.task311result %}

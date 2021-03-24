@@ -1,4 +1,5 @@
 import pytest
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -26,14 +27,14 @@ def test(browser, request, task_url):
 
     assert page.submit.tag_name == "button"
 
-    assert page.result_ages.tag_name == "span"
-    assert page.result_ages.text == "[0, 0, 0]"
+    with pytest.raises(NoSuchElementException):
+        assert page.result_ages
 
-    assert page.result_sum.tag_name == "span"
-    assert page.result_sum.text == "0"
+    with pytest.raises(NoSuchElementException):
+        assert page.result_sum
 
-    assert page.result_avg.tag_name == "span"
-    assert page.result_avg.text == "0.0"
+    with pytest.raises(NoSuchElementException):
+        assert page.result_avg
 
     for input in (
         page.age1,
@@ -53,6 +54,11 @@ def test(browser, request, task_url):
         f"no page reload",
     )
 
+    assert page.result_ages.tag_name == "span"
     assert page.result_ages.text == "[1, 10, 100]"
+
+    assert page.result_sum.tag_name == "span"
     assert page.result_sum.text == "111"
+
+    assert page.result_avg.tag_name == "span"
     assert page.result_avg.text == "37.0"

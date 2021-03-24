@@ -1,13 +1,11 @@
 {% extends "_base.html" %}
+
 {% block title %}/b/{{ object.pk }}{% endblock %}
+
 {% block heading %}/b/{{ object.pk }}{% endblock %}
 
 {% block main %}
-
-    <section>
-        <h2>{{ object.title }}</h2>
-        <p>{{ object.content }}</p>
-        <p><span>{{ object.nr_views }}</span><span>{{ object.nr_likes }}</span></p>
-    </section>
-
+    {% with post_action='/b/' post_btn_text='Back to /b/' post_btn_class='btn-light' %}
+        {% include "blog/post.html" %}
+    {% endwith %}
 {% endblock %}

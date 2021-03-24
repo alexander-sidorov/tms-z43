@@ -1,0 +1,27 @@
+<section class="card">
+
+    <figure class="card-img-top figure">
+        {% if object.image %}
+            <img alt="кдпв" class="figure-img img-fluid rounded" src="{{ object.image }}">
+        {% else %}
+            <p style="font-size: 8vw">🏙</p>
+        {% endif %}
+    </figure>
+
+    <section class="card-body">
+        <h2 class="card-title">{{ object.title }}</h2>
+
+        <p class="card-text">
+            {% if post_trunc %}
+                {{ object.content|truncatewords:4 }}
+            {% else %}
+                {{ object.content }}
+            {% endif %}
+        </p>
+
+        <p><a href="{{ post_action }}">
+            <button class="btn {{ post_btn_class }}" type="button">{{ post_btn_text }}</button>
+        </a></p>
+    </section>
+
+</section>

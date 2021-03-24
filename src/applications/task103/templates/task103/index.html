@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+{% block title %}Задание 1.03{% endblock %}
+{% block heading %}Задание 1.03{% endblock %}
+{% block main %}
+    <section>
+        <h2>Условие</h2>
+        <p>Создать три переменные, содержащие возраст трех ближайших соседей.</p>
+        <p>Найти сумму и вывести ее на экран.</p>
+        <p>
+            Создать еще одну переменную,
+            равную среднему арифметическому возрасту,
+            и вывести это значение на экран.
+        </p>
+        <form action="/tasks/103/" method="post">
+            <p>
+                <label for="id_age1">Ближайший сосед 1:</label>
+                <input id="id_age1" name="age1" placeholder="20" type="number" value="{{ request.session.task103age1|default:"" }}">
+            </p>
+            <p>
+                <label for="id_age2">Ближайший сосед 2:</label>
+                <input id="id_age2" name="age2" placeholder="30" type="number" value="{{ request.session.task103age2|default:"" }}">
+            </p>
+            <p>
+                <label for="id_age3">Ближайший сосед 3:</label>
+                <input id="id_age3" name="age3" placeholder="40" type="number" value="{{ request.session.task103age3|default:"" }}">
+            </p>
+            <button id="id_submit" class="btn btn-danger" type="submit">Выполнить</button>
+        </form>
+    </section>
+    {% if request.session.task103ages %}
+        <section>
+            <h2>Результат</h2>
+            <p>Возрасты: <span id="id_result_ages">{{ request.session.task103ages }}</span></p>
+            <p>Сумма: <span id="id_result_sum">{{ request.session.task103sum }}</span></p>
+            <p>Среднее: <span id="id_result_avg">{{ request.session.task103avg|floatformat:1 }}</span></p>
+        </section>
+    {% endif %}
+{% endblock %}
