@@ -56,7 +56,8 @@ def verify_result(
     result2: str = "",
 ) -> None:
     page.money.clear()
-    page.money.send_keys(money)
+    if money:
+        page.money.send_keys(money)
     page.submit.click()
     WebDriverWait(page.browser, timeout=4).until(
         EC.url_to_be(task_url),

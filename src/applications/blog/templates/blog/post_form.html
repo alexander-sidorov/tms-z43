@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+
+{% block title %}{% if object %}Update post{% else %}New post{% endif %}{% endblock %}
+
+{% block heading %}{% if object %}Update post{% else %}New post{% endif %}{% endblock %}
+
+{% block main %}
+    <form method="post">
+        {{ form.as_p }}
+        <button class="btn btn-danger" type="submit">Save</button>
+    </form>
+{% endblock %}

@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    # "django.contrib.staticfiles",
+    "django.contrib.staticfiles",
+    "applications.blog.apps.BlogConfig",
     "applications.task103.apps.Task103Config",
     "applications.task301.apps.Task301Config",
     "applications.task302.apps.Task302Config",
@@ -103,3 +104,6 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"

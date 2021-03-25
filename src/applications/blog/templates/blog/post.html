@@ -1,0 +1,38 @@
+<section class="card">
+
+    <figure class="card-img-top figure">
+        {% if object.image %}
+            <img alt="кдпв" class="figure-img img-fluid rounded" src="{{ object.image }}">
+        {% else %}
+            <p style="font-size: 8vw">🏙</p>
+        {% endif %}
+    </figure>
+
+    <section class="card-body">
+        <h2 class="card-title">{{ object.title }}</h2>
+        <h6 class="card-subtitle mb-2">🤦‍♂️&nbsp;{{ object.author|default:"народ" }}&nbsp;|&nbsp;👍🏻&nbsp;{{ object.nr_likes }}&nbsp;|&nbsp;👀&nbsp;{{ object.nr_views }}</h6>
+
+        <p class="card-text">
+            {% if post_trunc %}
+                {{ object.content|truncatewords:12 }}
+            {% else %}
+                {{ object.content }}
+            {% endif %}
+        </p>
+
+        <p><a href="{{ post_action }}">
+            <button class="btn {{ post_btn_class }}" type="button">{{ post_btn_text }}</button>
+        </a></p>
+        {% if request.user == object.author %}
+            {% if not post_trunc %}
+                <form action="{{ object.get_absolute_url }}update/" method="get">
+                    <button class="btn btn-warning" type="submit">Update</button>
+                </form>
+                <form action="{{ object.get_absolute_url }}delete/" method="post">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+            {% endif %}
+        {% endif %}
+    </section>
+
+</section>

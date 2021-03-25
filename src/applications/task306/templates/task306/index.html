@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Задание 3.06</title>
-</head>
-<body>
-<article>
-    <p><a href="/">&lt;&lt;&lt;</a></p>
-    <hr>
-    <h1>Задание 3.06</h1>
+{% extends "_base.html" %}
+{% block title %}Задание 3.06{% endblock %}
+{% block heading %}Задание 3.06{% endblock %}
+{% block main %}
     <section>
         <h2>Условие</h2>
         <p>Запросить у пользователя возраст.</p>
@@ -26,6 +18,4 @@
         <h2>Результат</h2>
         <p><span id="id_result" style="font-size: 96px">{{ result|yesno:"🍻,🍭,🤦‍♂️" }}</span></p>
     </section>
-</article>
-</body>
-</html>
+{% endblock %}

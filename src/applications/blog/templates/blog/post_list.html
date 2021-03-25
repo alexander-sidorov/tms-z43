@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+
+{% block title %}/b/{% endblock %}
+
+{% block heading %}/b/{% endblock %}
+
+{% block main %}
+    {% if not request.user.is_anonymous %}
+        <div class="row">
+            <div class="col">
+                <form action="/b/new/" method="get">
+                    <button class="btn btn-success" type="submit">Create a post</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        {% for object in object_list %}
+            <div class="col-sm-6 g-2">
+                {% with post_action=object.get_absolute_url post_btn_text='Read' post_btn_class='btn-primary' %}
+                    {% with post_trunc=True %}
+                        {% include "blog/post.html" %}
+                    {% endwith %}
+                {% endwith %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

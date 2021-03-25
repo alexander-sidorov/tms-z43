@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -22,9 +23,11 @@ def test(browser, request, task_url):
     assert page.heading.tag_name == "h1"
     assert page.heading.text == "Задание 3.01"
 
-    assert page.greeting.tag_name == "span"
     assert page.name.tag_name == "input"
     assert page.submit.tag_name == "button"
+
+    with pytest.raises(NoSuchElementException):
+        assert page.greeting
 
     name = os.urandom(4).hex()
 
@@ -37,4 +40,5 @@ def test(browser, request, task_url):
         f"no page reload",
     )
 
+    assert page.greeting.tag_name == "span"
     assert page.greeting.text == name

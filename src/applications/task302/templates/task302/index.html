@@ -1,0 +1,27 @@
+{% extends "_base.html" %}
+{% block title %}Задание 3.02{% endblock %}
+{% block heading %}Задание 3.02{% endblock %}
+{% block main %}
+    <section>
+        <h2>Условие</h2>
+        <p>Запросить у пользователя два целых числа.</p>
+        <p>Вывести строку вида <i>"2 плюс 3 равно 5"</i></p>
+        <form action="/tasks/302/" method="post">
+            <p>
+                <label for="id_a">A:</label>
+                <input id="id_a" name="a" placeholder="14" type="number" value="{{ request.session.task302a }}">
+            </p>
+            <p>
+                <label for="id_b">B:</label>
+                <input id="id_b" name="b" placeholder="88" type="number" value="{{ request.session.task302b }}">
+            </p>
+            <button class="btn btn-danger" id="id_submit" type="submit">Выполнить</button>
+        </form>
+    </section>
+    {% if request.session.task302result %}
+        <section>
+            <h2>Результат</h2>
+            <p><span id="id_result">{{ request.session.task302result }}</span></p>
+        </section>
+    {% endif %}
+{% endblock %}

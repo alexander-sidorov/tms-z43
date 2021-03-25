@@ -1,12 +1,10 @@
 from selenium.webdriver.common.by import By
 
 from ..abstract import PageElement
-from ..abstract import PageObject
+from .base import TaskPage
 
 
-class Task303Page(PageObject):
-    heading = PageElement(By.XPATH, "/html/body/article/h1")
-
+class Task303Page(TaskPage):
     result = PageElement(By.ID, "id_result")
     sentence = PageElement(By.ID, "id_sentence")
     submit = PageElement(By.ID, "id_submit")

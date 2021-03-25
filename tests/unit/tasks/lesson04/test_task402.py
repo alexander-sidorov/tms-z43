@@ -2,7 +2,8 @@ from random import randint
 
 import pytest
 
-from tasks.lesson04 import task402
+from applications.task402.logic import add_number
+from applications.task402.logic import get_accumulated
 
 
 @pytest.mark.unit
@@ -11,8 +12,8 @@ def test(http_session):
         if not session_must_be_empty:
             assert (
                 "task402" in http_session
-            ), f"{task402.add_number} does not save a number in session"
-        got = task402.get_accumulated(http_session)
+            ), f"{add_number} does not save a number in session"
+        got = get_accumulated(http_session)
         assert (
             got == expected
         ), f"session contains invalid number: {http_session}"
@@ -23,8 +24,8 @@ def test(http_session):
 
     test_number = randint(1000, 9999)
 
-    task402.add_number(http_session, test_number)
+    add_number(http_session, test_number)
     verify_get_accumulated(test_number)
 
-    task402.add_number(http_session, test_number)
+    add_number(http_session, test_number)
     verify_get_accumulated(test_number * 2)

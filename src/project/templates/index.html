@@ -1,45 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>Z43</title>
-</head>
-<body>
-<article>
-    <h1>Z43: {{ random_number }}</h1>
+{% extends "_base.html" %}
+{% block title %}Home{% endblock %}
+{% block heading %}Z43{% endblock %}
+{% block main %}
     <section>
-        <h2>Задачи</h2>
-        <ul>
-            <li>
-                <p>Урок 1</p>
-                <ul>
-                    <li><a href="/tasks/103/">Задача 1.03</a></li>
-                </ul>
-            </li>
-            <li>
-                <p>Урок 3</p>
-                <ul>
-                    <li><a href="/tasks/301/">Задача 3.01</a></li>
-                    <li><a href="/tasks/302/">Задача 3.02</a></li>
-                    <li><a href="/tasks/303/">Задача 3.03</a></li>
-                    <li><a href="/tasks/304/">Задача 3.04</a></li>
-                    <li><a href="/tasks/305/">Задача 3.05</a></li>
-                    <li><a href="/tasks/306/">Задача 3.06</a></li>
-                    <li><a href="/tasks/307/">Задача 3.07</a></li>
-                    <li><a href="/tasks/309/">Задача 3.09</a></li>
-                    <li><a href="/tasks/310/">Задача 3.10</a></li>
-                    <li><a href="/tasks/311/">Задача 3.11</a></li>
-                </ul>
-            </li>
-            <li>
-                <p>Урок 4</p>
-                <ul>
-                    <li><a href="/tasks/402/">Задача 4.02</a></li>
-                </ul>
-            </li>
-        </ul>
+        <p>random number: <span id="id_random">{{ random_number }}</span></p>
     </section>
-</article>
-</body>
-</html>
+{% endblock %}
