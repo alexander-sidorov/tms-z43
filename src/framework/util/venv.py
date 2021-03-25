@@ -11,9 +11,9 @@ import sys
 
 def in_virtualenv():
     try:
-        from framework.config import settings
+        from framework.util.settings import get_setting
 
-        synth_venv = settings.VENV_SYNTHETIC
+        synth_venv = get_setting("VENV_SYNTHETIC")
     except ImportError:
         env_value = os.getenv("VENV_SYNTHETIC", "False").capitalize()
         synth_venv = bool(eval(env_value))
