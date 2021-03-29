@@ -1,44 +1,31 @@
-from typing import Dict
-from typing import List
-from typing import Union
-
 from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import HTTPException
+from fastapi import Path
 
+from api import schema
 from applications.blog.models import Post
 
 app = FastAPI()
 
 
-class ApiPost(BaseModel):
-    id: int
-    title: str
-    content: str
-    image: str
-
-
-class JsonApiResponse(BaseModel):
-    data: Union[Dict, List[Dict]]
-    ok: bool = True
-
-
 @app.get("/api/blog/post/")
-async def all_posts() -> JsonApiResponse:
+def all_posts() -> schema.PostsJsonApi:
     posts = Post.objects.all()
 
-    payload = JsonApiResponse(
-        data=posts,
-    )
+    payload = schema.PostsJsonApi(data=list(posts))
 
     return payload
 
 
 @app.get("/api/blog/post/{post_id}/")
-async def single_post(post_id: int) -> JsonApiResponse:
-    post = Post.objects.get(id=post_id)
+def single_post(post_id: int = Path(...)):
+    post = Post.objects.filter(id=post_id).first()
+    if not post:
+        raise HTTPException(
+            detail=f"post with id={post_id} not found",
+            status_code=404,
+        )
 
-    payload = JsonApiResponse(
-        data=ApiPost.parse_obj(post)
-    )
+    payload = schema.PostJsonApi(data=post)
 
     return payload
