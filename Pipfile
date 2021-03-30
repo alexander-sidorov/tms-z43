@@ -10,8 +10,8 @@ python_version = "3.9"
 astpretty = { extras = ["typed", ], version = "==2.1.0" }
 black = "==20.8b1"
 httpie = "==2.4.0"
-ipython = "==7.21.0"
-isort = "==5.7.0"
+ipython = "==7.22.0"
+isort = "==5.8.0"
 pudb = "==2020.1"
 pytest = "==6.2.2"
 pytest-mock = "==3.5.1"
@@ -20,12 +20,12 @@ pytest-selenium = "==2.0.1"
 [packages]
 dj-database-url = "==0.5.0"
 django = "==3.1.7"
-dynaconf = { extras = ["yaml", ], version = "==3.1.2" }
-gunicorn = "==20.0.4"
+dynaconf = { extras = ["yaml", ], version = "==3.1.4" }
+fastapi = "==0.63.0"
+gunicorn = "==20.1.0"
 psycopg2-binary = "==2.8.6"
-pydantic = "==1.8"
+pydantic = "==1.8.1"
 requests = "==2.25.1"
-sentry-sdk = "==0.20.3"
+sentry-sdk = "==1.0.0"
 toml = "==0.10.2"
-fastapi = "*"
-uvicorn = {extras = ["standard"], version = "*"}
+uvicorn = {extras = ["standard"], version = "==0.13.4"}
