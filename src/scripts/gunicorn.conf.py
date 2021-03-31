@@ -12,4 +12,5 @@ max_requests_jitter = 20
 pythonpath = DIR_SRC.as_posix()
 reload = False
 timeout = 30
+worker_class = "framework.workers.AsyncioUvicornWorker"
 workers = get_setting("WEB_CONCURRENCY", cpu_count() * 2 + 1, convert=int)
