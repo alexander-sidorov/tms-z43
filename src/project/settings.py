@@ -1,8 +1,8 @@
 import os
 
 import dj_database_url
-from dynaconf import settings as ds
 
+from framework.config import settings as ds
 from framework.dirs import DIR_PROJECT
 from framework.dirs import DIR_TEMPLATES
 

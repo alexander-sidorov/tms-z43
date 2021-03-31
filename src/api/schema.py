@@ -3,13 +3,14 @@ from typing import List
 from typing import Union
 
 from pydantic import BaseModel
+from pydantic import Field
 
 
 class Post(BaseModel):
-    id: int
-    title: str
-    content: str
-    image: str
+    id: int = Field(None)
+    title: str = Field(...)
+    content: str = Field(...)
+    image: str = Field(None)
 
     class Config:
         orm_mode = True
