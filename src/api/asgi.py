@@ -4,6 +4,7 @@ from fastapi import Path
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
+from starlette.responses import Response
 
 from api import schema
 from api.consts import JSONAPI_CONTENT_TYPE
@@ -11,7 +12,10 @@ from api.errors import BadRequest
 from api.util import validate_content_type
 from applications.blog.models import Post
 
-app = FastAPI()
+app = FastAPI(
+    docs_url="/api/docs/",
+    openapi_url="/api/openapi.json",
+)
 
 
 @app.middleware("http")
@@ -23,9 +27,10 @@ async def jsonapi_request_validation_middleware(request: Request, call_next):
         except BadRequest as err:
             return JsonApiResponse(
                 content={"ok": False, "detail": str(err)},
-                status_code=status.HTTP_400_BAD_REQUEST,
+                status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             )
-    return await call_next(request)
+    resp: Response = await call_next(request)
+    return resp
 
 
 class JsonApiResponse(JSONResponse):
@@ -47,7 +52,7 @@ def single_post(post_id: int = Path(...)):
     if not post:
         raise HTTPException(
             detail=f"post with id={post_id} not found",
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
         )
 
     payload = schema.PostJsonApi(data=post)
