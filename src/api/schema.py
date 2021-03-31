@@ -5,10 +5,20 @@ from pydantic import Field
 
 
 class Post(BaseModel):
-    id: int = Field(None)
-    title: str = Field(...)
+    author_id: int = Field(...)
     content: str = Field(...)
+    id: int = Field(None)
     image: str = Field(None)
+    title: str = Field(...)
+
+    class Config:
+        orm_mode = True
+
+
+class User(BaseModel):
+    id: int = Field(None)
+    username: str = Field(...)
+    password: str = Field(...)
 
     class Config:
         orm_mode = True
@@ -28,6 +38,10 @@ class PostsJsonApi(_JsonApi):
 
 class PostJsonApi(_JsonApi):
     data: Post
+
+
+class UserJsonApi(_JsonApi):
+    data: User
 
 
 class ErrorsJsonApi(_JsonApi):

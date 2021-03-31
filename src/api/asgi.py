@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from fastapi import FastAPI
 from fastapi import HTTPException
 from fastapi import Path
@@ -34,7 +35,7 @@ async def jsonapi_request_validation_middleware(request: Request, call_next):
             validate_content_type(content_type)
         except BadRequest as err:
             return JsonApiResponse(
-                content=schema.ErrorsJsonApi(errors=[str(err)]),
+                content="xxx",  # schema.ErrorsJsonApi(errors=[str(err)]),
                 status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             )
     resp: Response = await call_next(request)
@@ -81,6 +82,7 @@ def single_post(post_id: int = Path(...)):
 )
 def create_new_post(post: schema.Post) -> schema.PostJsonApi:
     obj = Post(
+        author_id=post.author_id,
         content=post.content,
         image=post.image,
         title=post.title,
@@ -88,5 +90,18 @@ def create_new_post(post: schema.Post) -> schema.PostJsonApi:
     obj.save()
 
     payload = schema.PostJsonApi(data=obj)
+
+    return payload
+
+
+@app.post("/api/user/", response_class=JsonApiResponse)
+def auth_user(user: schema.User) -> schema.UserJsonApi:
+    obj = authenticate(
+        username=user.username,
+        password=user.password,
+    )
+
+    payload = schema.UserJsonApi(data=obj)
+    payload.data.password = "*****"
 
     return payload
