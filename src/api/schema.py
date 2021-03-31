@@ -1,6 +1,4 @@
-from typing import Dict
 from typing import List
-from typing import Union
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -16,14 +14,21 @@ class Post(BaseModel):
         orm_mode = True
 
 
-class JsonApiResponse(BaseModel):
-    data: Union[Dict, List[Dict]]
-    ok: bool = True
+class _Meta(BaseModel):
+    ok: bool = Field(default=True)
 
 
-class PostsJsonApi(JsonApiResponse):
+class _JsonApi(BaseModel):
+    meta: _Meta = Field(default_factory=_Meta)
+
+
+class PostsJsonApi(_JsonApi):
     data: List[Post]
 
 
-class PostJsonApi(JsonApiResponse):
+class PostJsonApi(_JsonApi):
     data: Post
+
+
+class ErrorsJsonApi(_JsonApi):
+    errors: List[str]

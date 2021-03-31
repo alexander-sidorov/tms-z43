@@ -18,6 +18,14 @@ app = FastAPI(
 )
 
 
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return JsonApiResponse(
+        status_code=exc.status_code,
+        content=exc.detail,
+    )
+
+
 @app.middleware("http")
 async def jsonapi_request_validation_middleware(request: Request, call_next):
     if request.method.lower() in {"post", "put", "patch"}:
@@ -26,7 +34,7 @@ async def jsonapi_request_validation_middleware(request: Request, call_next):
             validate_content_type(content_type)
         except BadRequest as err:
             return JsonApiResponse(
-                content={"ok": False, "detail": str(err)},
+                content=schema.ErrorsJsonApi(errors=[str(err)]),
                 status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
             )
     resp: Response = await call_next(request)
@@ -50,8 +58,13 @@ def all_posts() -> schema.PostsJsonApi:
 def single_post(post_id: int = Path(...)):
     post = Post.objects.filter(id=post_id).first()
     if not post:
+        errors = schema.ErrorsJsonApi(
+            errors=[f"post with id={post_id} not found"]
+        )
+        errors.meta.ok = False
+
         raise HTTPException(
-            detail=f"post with id={post_id} not found",
+            detail=errors.dict(),
             status_code=status.HTTP_404_NOT_FOUND,
         )
 
