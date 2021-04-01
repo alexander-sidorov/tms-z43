@@ -1,4 +1,5 @@
 from typing import List
+from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import Field
@@ -6,9 +7,9 @@ from pydantic import Field
 
 class Post(BaseModel):
     author_id: int = Field(...)
-    content: str = Field(...)
-    id: int = Field(None)
-    image: str = Field(None)
+    content: Optional[str] = Field(None)
+    id: Optional[int] = Field(None)
+    image: Optional[str] = Field(None)
     title: str = Field(...)
 
     class Config:
@@ -16,7 +17,7 @@ class Post(BaseModel):
 
 
 class User(BaseModel):
-    id: int = Field(None)
+    id: Optional[int] = Field(None)
     username: str = Field(...)
     password: str = Field(...)
 

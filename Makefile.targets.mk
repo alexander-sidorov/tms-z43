@@ -20,7 +20,7 @@ format:
 .PHONY: test
 test::
 	$(call log, running tests)
-	$(RUN) pytest
+	$(RUN) pytest -v $(tests)
 	$(RUN) isort --virtual-env="$(DIR_VENV)" --check-only "$(DIR_SRC)" "$(DIR_TESTS)"
 	$(RUN) black --check "$(DIR_SRC)" "$(DIR_TESTS)"
 
