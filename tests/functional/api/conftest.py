@@ -21,37 +21,43 @@ def user_model():
 
 
 @pytest.yield_fixture(scope="function")
-def post_factory(post_model):
-    posts = []
+def delete_on_exit():
+    from django.db import models
 
+    ds = {}
+
+    def _cb(model, id=None):
+        if isinstance(model, models.Model):
+            ds.setdefault(model.__class__, []).append(model.pk)
+        else:
+            ds.setdefault(model, []).append(id)
+
+    yield _cb
+
+    for model_cls, pks in ds.items():
+        model_cls.objects.filter(id__in=sorted(pks)).delete()
+
+
+@pytest.yield_fixture(scope="function")
+def post_factory(post_model, delete_on_exit):
     def factory(**kwargs) -> post_model:
         post = post_model(**kwargs)
-        posts.append(post)
-
         post.save()
+        delete_on_exit(post)
         return post
 
     yield factory
 
-    for _post in posts:
-        _post.delete()
-
 
 @pytest.yield_fixture(scope="function")
-def user_factory(user_model):
-    users = []
-
+def user_factory(user_model, delete_on_exit):
     def factory(**kwargs) -> user_model:
         user = user_model(**kwargs)
-        users.append(user)
-
         user.save()
+        delete_on_exit(user)
         return user
 
     yield factory
-
-    for _user in users:
-        _user.delete()
 
 
 @pytest.yield_fixture(scope="session")

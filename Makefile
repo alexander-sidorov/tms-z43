@@ -47,3 +47,9 @@ test::
 su:
 	$(call log, starting Django shell)
 	$(RUN) python src/manage.py createsuperuser
+
+
+.PHONY: run-dev
+run-dev:
+	$(RUN) uvicorn "project.asgi:application" --reload
+
