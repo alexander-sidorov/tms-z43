@@ -1,29 +1,40 @@
+from datetime import datetime
+
+from delorean import utcnow
 from django.contrib.auth import get_user_model
 from django.db import models
 
 User = get_user_model()
 
 
+def _utcnow() -> datetime:
+    return utcnow().datetime
+
+
 class Post(models.Model):
     author = models.ForeignKey(
         User,
-        on_delete=models.CASCADE,
+        blank=True,
         db_index=True,
         null=True,
-        blank=True,
+        on_delete=models.CASCADE,
+    )
+    created_at = models.DateTimeField(
+        db_index=True,
+        default=_utcnow,
     )
     title = models.CharField(
-        null=True,
         blank=True,
         max_length=200,
+        null=True,
     )
     content = models.TextField(
-        null=True,
         blank=True,
+        null=True,
     )
     image = models.URLField(
-        null=True,
         blank=True,
+        null=True,
     )
     nr_views = models.IntegerField(
         default=0,
@@ -33,7 +44,7 @@ class Post(models.Model):
     )
 
     class Meta:
-        ordering = ["title", "-id"]
+        ordering = ["-created_at", "title", "author_id", "id"]
 
     def __str__(self) -> str:
         return f"{self.title} ({self.pk})"

@@ -18,6 +18,7 @@ pytest-mock = "==3.5.1"
 pytest-selenium = "==2.0.1"
 
 [packages]
+delorean = "==1.0.0"
 dj-database-url = "==0.5.0"
 django = "==3.1.7"
 dynaconf = { extras = ["yaml", ], version = "==3.1.2" }
