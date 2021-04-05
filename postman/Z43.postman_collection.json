@@ -18,7 +18,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"from api\",\n    \"content\": \"API is for Application Programming Interface\",\n    \"image\": \"https://live.staticflickr.com/8259/8692704103_ae4cd86d81.jpg\"\n}",
+					"raw": "{\n    \"title\": \"post\",\n    \"content\": \"API is for Application Programming Interface\",\n    \"image\": \"https://live.staticflickr.com/8259/8692704103_ae4cd86d81.jpg\",\n    \"author_id\": 1\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -43,12 +43,27 @@
 			"response": []
 		},
 		{
-			"name": "api: get all posts",
+			"name": "api: put a post",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"put\",\n    \"content\": \"API is for Application Programming Interface\",\n    \"image\": \"https://live.staticflickr.com/8259/8692704103_ae4cd86d81.jpg\",\n    \"author_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:8000/api/blog/post/",
+					"raw": "http://localhost:8000/api/blog/post/88/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -58,6 +73,144 @@
 						"api",
 						"blog",
 						"post",
+						"88",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api: patch a post",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"patched\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/blog/post/88/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"blog",
+						"post",
+						"88",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api: get all posts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/blog/post/?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"blog",
+						"post",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api: get post 88",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/blog/post/88/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"blog",
+						"post",
+						"88",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"1\",\n    \"password\": \"1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/user/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
 						""
 					]
 				}

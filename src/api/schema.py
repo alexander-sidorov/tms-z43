@@ -6,11 +6,11 @@ from pydantic import Field
 
 
 class Post(BaseModel):
-    author_id: int = Field(...)
+    author_id: Optional[int] = Field(None)
     content: Optional[str] = Field(None)
     id: Optional[int] = Field(None)
     image: Optional[str] = Field(None)
-    title: str = Field(...)
+    title: Optional[str] = Field(None)
 
     class Config:
         orm_mode = True
@@ -26,7 +26,8 @@ class User(BaseModel):
 
 
 class _Meta(BaseModel):
-    ok: bool = Field(default=True)
+    details: Optional[str] = Field(None)
+    ok: bool = Field(True)
 
 
 class _JsonApi(BaseModel):
