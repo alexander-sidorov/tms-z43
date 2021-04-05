@@ -1,7 +1,9 @@
 from django.contrib.auth import authenticate
+from fastapi import Body
 from fastapi import FastAPI
 from fastapi import HTTPException
 from fastapi import Path
+from fastapi.encoders import jsonable_encoder
 from starlette import status
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -10,6 +12,8 @@ from starlette.responses import Response
 from api import schema
 from api.consts import JSONAPI_CONTENT_TYPE
 from api.errors import BadRequest
+from api.util import get_or_404
+from api.util import update_normal_fields
 from api.util import validate_content_type
 from applications.blog.models import Post
 
@@ -57,17 +61,7 @@ def all_posts() -> schema.PostsJsonApi:
 
 @app.get("/api/blog/post/{post_id}/", response_class=JsonApiResponse)
 def single_post(post_id: int = Path(...)):
-    post = Post.objects.filter(id=post_id).first()
-    if not post:
-        errors = schema.ErrorsJsonApi(
-            errors=[f"post with id={post_id} not found"]
-        )
-        errors.meta.ok = False
-
-        raise HTTPException(
-            detail=errors.dict(),
-            status_code=status.HTTP_404_NOT_FOUND,
-        )
+    post = get_or_404(Post, pk=post_id)
 
     payload = schema.PostJsonApi(data=post)
 
@@ -87,11 +81,68 @@ def create_new_post(post: schema.Post) -> schema.PostJsonApi:
         image=post.image,
         title=post.title,
     )
+
     obj.save()
 
     payload = schema.PostJsonApi(data=obj)
 
     return payload
+
+
+@app.put(
+    "/api/blog/post/{post_id}/",
+)
+def replace_post(
+    request: Request,
+    post: schema.Post = Body(...),
+    post_id: int = Path(...),
+) -> JsonApiResponse:
+    obj, is_new_obj = Post.objects.update_or_create(id=post_id)
+    update_normal_fields(obj, post)
+
+    if is_new_obj:
+        payload = schema.PostJsonApi(data=obj)
+        payload.meta.details = "object has been created"
+        response = JsonApiResponse(
+            content=jsonable_encoder(schema.PostJsonApi(data=obj)),
+            status_code=status.HTTP_201_CREATED,
+        )
+    else:
+        response = Response(status_code=status.HTTP_204_NO_CONTENT)
+
+    response.headers["Content-Location"] = request.url.path
+
+    return response
+
+
+@app.patch(
+    "/api/blog/post/{post_id}/",
+    response_model_exclude_unset=True,
+)
+def update_post(
+    post: schema.Post = Body(...),
+    post_id: int = Path(...),
+) -> schema.PostJsonApi:
+    obj = get_or_404(Post, pk=post_id)
+    update_normal_fields(obj, post, exclude_unset=True)
+
+    payload = schema.PostJsonApi(data=obj)
+    payload.meta.details = "object has been partially updated"
+
+    return payload
+
+
+@app.delete(
+    "/api/blog/post/{post_id}/",
+)
+def delete_post(post_id: int = Path(...)):
+    Post.objects.filter(id=post_id).delete()
+
+    response = Response(
+        status_code=status.HTTP_204_NO_CONTENT,
+    )
+
+    return response
 
 
 @app.post("/api/user/", response_class=JsonApiResponse)
