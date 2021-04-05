@@ -1,0 +1,2 @@
+class BadRequest(RuntimeError):
+    pass

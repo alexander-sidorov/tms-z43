@@ -11,7 +11,7 @@ include ./Makefile.in.mk
 # [  TARGETS  ]
 # override to whatever works on your system
 
-WSGI_APPLICATION := project.wsgi:application
+WSGI_APPLICATION := project.asgi:application
 LOCAL_RUN := $(PYTHON) src/manage.py runserver
 
 include ./Makefile.targets.mk
@@ -41,3 +41,15 @@ sh:
 .PHONY: test
 test::
 	$(RUN) python src/manage.py test -v 2 applications
+
+
+.PHONY: su
+su:
+	$(call log, starting Django shell)
+	$(RUN) python src/manage.py createsuperuser
+
+
+.PHONY: run-dev
+run-dev:
+	$(RUN) uvicorn "project.asgi:application" --reload
+
