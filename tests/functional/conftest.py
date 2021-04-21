@@ -1,7 +1,6 @@
 import pytest
 import requests
 
-from tests.functional.utils import build_chrome
 from tests.functional.utils import build_firefox
 
 

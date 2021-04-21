@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from typing import Optional
 
@@ -8,6 +9,7 @@ from pydantic import Field
 class Post(BaseModel):
     author_id: Optional[int] = Field(None)
     content: Optional[str] = Field(None)
+    created_at: Optional[datetime] = Field(None)
     id: Optional[int] = Field(None)
     image: Optional[str] = Field(None)
     title: Optional[str] = Field(None)

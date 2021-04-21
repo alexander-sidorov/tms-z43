@@ -16,4 +16,7 @@ DIR_TEMPLATES = DIR_SRC / "main" / "templates"
 DIR_STORAGE = DIR_REPO / "storage"
 DIR_STORAGE.mkdir(exist_ok=True)
 
+DIR_STATIC = DIR_REPO / ".static"
+DIR_STATIC.mkdir(exist_ok=True)
+
 DIR_PROJECT = DIR_SRC / "project"

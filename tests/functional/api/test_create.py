@@ -48,5 +48,6 @@ def test_success(user_factory, post_model, delete_on_exit):
     expected.id = obj.id
 
     got = Post.parse_obj(response.json()["data"])
+    got.created_at = expected.created_at
 
     assert got == expected

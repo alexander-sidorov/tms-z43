@@ -2,6 +2,7 @@ import os
 from random import randint
 
 import pytest
+from delorean import utcnow
 from starlette import status
 from starlette.responses import Response
 from starlette.testclient import TestClient
@@ -15,6 +16,8 @@ client = TestClient(application)
 @pytest.mark.functional
 def test_put(user_factory, post_model, delete_on_exit):
     h = os.urandom(4).hex()
+    atm = utcnow().datetime
+
     user = user_factory(username=f"user_{h}")
     delete_on_exit(user)
 
@@ -24,13 +27,14 @@ def test_put(user_factory, post_model, delete_on_exit):
     expected = Post(
         author_id=user.id,
         content=f"post_content_{h}",
+        created_at=atm,
         image=f"post_image_{h}",
         title=f"post_title_{h}",
     )
 
     response = client.put(
         obj_url,
-        json=expected.dict(),
+        data=expected.json(),
         headers={"Content-Type": "application/vnd.api+json"},
     )
     obj = post_model.objects.get(id=post_id)
@@ -47,7 +51,7 @@ def test_put(user_factory, post_model, delete_on_exit):
 
     response = client.put(
         obj_url,
-        json=expected.dict(),
+        data=expected.json(),
         headers={"Content-Type": "application/vnd.api+json"},
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -73,7 +77,6 @@ def test_patch(user_factory, post_factory, delete_on_exit):
         image=f"post_{h}_image",
         author=user1,
     )
-    delete_on_exit(post)
     expected = Post.from_orm(post)
 
     obj_url = f"/api/blog/post/{post.id}/"
