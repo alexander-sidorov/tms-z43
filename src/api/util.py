@@ -40,9 +40,11 @@ def get_or_404(model: Type, pk: int):
 def update_normal_fields(orm_obj, schema_obj, *, exclude_unset=False) -> None:
     kw = schema_obj.dict(exclude_unset=exclude_unset)
 
+    for fn in {"id"}:
+        if fn in kw:
+            del kw[fn]
+
     for name, value in kw.items():
-        if name == "id":
-            continue
         setattr(orm_obj, name, value)
 
     orm_obj.save()

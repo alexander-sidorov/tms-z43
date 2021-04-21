@@ -1,8 +1,11 @@
+from typing import Optional
+
 from django.contrib.auth import authenticate
 from fastapi import Body
 from fastapi import FastAPI
 from fastapi import HTTPException
 from fastapi import Path
+from fastapi import Query
 from fastapi.encoders import jsonable_encoder
 from starlette import status
 from starlette.requests import Request
@@ -51,8 +54,10 @@ class JsonApiResponse(JSONResponse):
 
 
 @app.get("/api/blog/post/", response_class=JsonApiResponse)
-def all_posts() -> schema.PostsJsonApi:
+def all_posts(author_id: Optional[int] = Query(None)) -> schema.PostsJsonApi:
     posts = Post.objects.all()
+    if author_id:
+        posts = posts.filter(author_id=author_id)
 
     payload = schema.PostsJsonApi(data=list(posts))
 

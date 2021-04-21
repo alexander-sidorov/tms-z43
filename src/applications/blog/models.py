@@ -12,6 +12,7 @@ def _utcnow() -> datetime:
 
 
 class Post(models.Model):
+    id = models.AutoField(primary_key=True)
     author = models.ForeignKey(
         User,
         blank=True,

@@ -4,6 +4,7 @@ import dj_database_url
 
 from framework.config import settings as ds
 from framework.dirs import DIR_PROJECT
+from framework.dirs import DIR_STATIC
 from framework.dirs import DIR_TEMPLATES
 
 SECRET_KEY = ds.SECRET_KEY
@@ -38,15 +39,20 @@ INSTALLED_APPS = [
     "applications.task402.apps.Task402Config",
 ]
 
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
+MIDDLEWARE_RANK = {
+    1000: "django.middleware.security.SecurityMiddleware",
+    2000: "django.contrib.sessions.middleware.SessionMiddleware",
+    3000: "django.middleware.common.CommonMiddleware",
     # 'django.middleware.csrf.CsrfViewMiddleware',
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
+    4000: "django.contrib.auth.middleware.AuthenticationMiddleware",
+    5000: "django.contrib.messages.middleware.MessageMiddleware",
+    6000: "django.middleware.clickjacking.XFrameOptionsMiddleware",
+}
+
+if not DEBUG:
+    MIDDLEWARE_RANK[1500] = "whitenoise.middleware.WhiteNoiseMiddleware"
+
+MIDDLEWARE = [mw for rank, mw in sorted(MIDDLEWARE_RANK.items())]
 
 ROOT_URLCONF = "project.urls"
 
@@ -103,7 +109,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+# static storage settings
+STATIC_ROOT = DIR_STATIC.resolve().as_posix()
+
 STATIC_URL = "/static/"
+if not DEBUG:
+    STATICFILES_STORAGE = (
+        "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    )
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
