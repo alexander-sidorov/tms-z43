@@ -34,7 +34,7 @@ def test_put(user_factory, post_model, delete_on_exit):
 
     response = client.put(
         obj_url,
-        json=expected.dict(),
+        data=expected.json(),
         headers={"Content-Type": "application/vnd.api+json"},
     )
     obj = post_model.objects.get(id=post_id)
@@ -51,7 +51,7 @@ def test_put(user_factory, post_model, delete_on_exit):
 
     response = client.put(
         obj_url,
-        json=expected.dict(),
+        data=expected.json(),
         headers={"Content-Type": "application/vnd.api+json"},
     )
     assert response.status_code == status.HTTP_204_NO_CONTENT
